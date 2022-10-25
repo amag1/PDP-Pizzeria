@@ -5,13 +5,16 @@
 
 package com.mycompany.pizzeria;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  *
  * @author andres
  */
 public class Pizzeria {
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
+    private LinkedList<Mesa> listaMesas;
+    private List<Empleado> listaEmpleados;
+    private LinkedList<List<Cliente>> listaEsperando;
 }

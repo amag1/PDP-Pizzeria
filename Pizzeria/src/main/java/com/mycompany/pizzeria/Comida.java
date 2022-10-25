@@ -1,5 +1,8 @@
+package com.mycompany.pizzeria;
+
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,43 +15,13 @@ import java.util.ArrayList;
  */
 public class Comida {
     
-    public class ParComida  {
-    
     private String nombre;
-    private int cantidad;
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public ParComida(String nombre, int cantidad) {
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-    }
-    
-    
-    
-}
-
-    private String nombre;
-    private ArrayList<ParComida> ingredientes;
+    private HashMap<String,Integer> ingredientes;
     private int tiempoPreparacion;
     private int tiempoConsumo;
     private int precio;
 
-    public Comida(String nombre, ArrayList<ParComida> ingredientes, int tiempoPreparacion, int tiempoConsumo, int precio) {
+    public Comida(String nombre, HashMap<String,Integer> ingredientes, int tiempoPreparacion, int tiempoConsumo, int precio) {
         this.nombre = nombre;
         this.ingredientes = ingredientes;
         this.tiempoPreparacion = tiempoPreparacion;
@@ -60,7 +33,7 @@ public class Comida {
         this.nombre = nombre;
     }
 
-    public void setIngredientes(ArrayList<ParComida> ingredientes) {
+    public void setIngredientes(HashMap<String,Integer> ingredientes) {
         this.ingredientes = ingredientes;
     }
 
@@ -80,7 +53,7 @@ public class Comida {
         return nombre;
     }
 
-    public ArrayList<ParComida> getIngredientes() {
+    public HashMap<String,Integer> getIngredientes() {
         return ingredientes;
     }
 
