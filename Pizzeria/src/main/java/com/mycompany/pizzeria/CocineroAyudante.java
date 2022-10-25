@@ -10,7 +10,7 @@ package com.mycompany.pizzeria;
  */
 public class CocineroAyudante {
     
-    private Cocina cocina;
+    protected Cocina cocina;
     
     public CocineroAyudante(Cocina cocina) {
         this.cocina = cocina;

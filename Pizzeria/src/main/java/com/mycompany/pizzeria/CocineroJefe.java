@@ -15,13 +15,19 @@ public class CocineroJefe extends CocineroAyudante {
     }
     
     //Dada una orden, devuelve el tiempo de preparacion total
-    public int cocinar(Orden ord){
+    public int cocinar(){
+        Orden first = cocina.getFirstListaOrdenes();
+        
         int count = 0;
         
-        for (Comida c : ord.getListaComidas()){
+        for (Comida c : first.getListaComidas()){
             
             count += c.getTiempoPreparacion();
         }
+        
+        this.cocina.removeFirstListaOrdenes();
+        
+        this.cocina.setTotalDelay(this.cocina.getTotalDelay() + count);
         
         return count;
     }
