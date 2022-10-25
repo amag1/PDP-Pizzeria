@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.pizzeria;
 
 import java.util.List;
 
-/**
- *
- * @author andres
- */
 public class Orden {
     
     private Mesa mesa;
@@ -23,6 +15,12 @@ public class Orden {
         this.listaBebidas = listaBebidas;
         this.precio = precio;
     }
+
+    public Orden(Mesa mesa) {
+        this.mesa = mesa;
+        this.precio = 0;
+    }
+    
 
     public Mesa getMesa() {
         return mesa;
@@ -39,6 +37,10 @@ public class Orden {
     public void setListaComidas(List<Comida> listaComidas) {
         this.listaComidas = listaComidas;
     }
+    
+    public void addToListaComidas(Comida com){
+        this.listaComidas.add(com);
+    }
 
     public List<Bebida> getListaBebidas() {
         return listaBebidas;
@@ -46,6 +48,10 @@ public class Orden {
 
     public void setListaBebidas(List<Bebida> listaBebidas) {
         this.listaBebidas = listaBebidas;
+    }
+    
+    public void addToListaBebidas(Bebida beb){
+        this.listaBebidas.add(beb);
     }
 
     public int getPrecio() {

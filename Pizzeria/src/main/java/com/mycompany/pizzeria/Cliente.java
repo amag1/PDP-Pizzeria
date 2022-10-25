@@ -8,7 +8,7 @@ import java.util.Random;
  *
  * @author andres
  */
-public class Cliente {
+abstract class Cliente {
     
     private String id;
     private Comida comidaFavorita;
