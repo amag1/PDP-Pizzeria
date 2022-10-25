@@ -36,6 +36,8 @@ public class Mesero extends Empleado {
     
     //Dada una comida, analiza la lista de ingredientes y determina si hay suficiente stock
     public boolean verificarInventarioComida(Comida c){
+    
+        this.ocupado = true;
         
         for (String key : c.getIngredientes().keySet()){
             if (c.getIngredientes().get(key) > this.cocinaPizzeria.getStock().get(key)){
@@ -87,6 +89,8 @@ public class Mesero extends Empleado {
         }
         //finalmente se pone la orden al final de la cola en la cocina
         this.cocinaPizzeria.addLastListaOrdenes(ord);
+        
+        this.ocupado = false;
     }
         
     

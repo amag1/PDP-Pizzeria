@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.pizzeria;
 
-/**
- *
- * @author andres
- */
 public class CocineroJefe extends CocineroAyudante {
 
     public CocineroJefe(Cocina cocina) {
@@ -16,6 +8,7 @@ public class CocineroJefe extends CocineroAyudante {
     
     //Dada una orden, devuelve el tiempo de preparacion total
     public int cocinar(){
+        this.ocupado = true;
         Orden first = cocina.getFirstListaOrdenes();
         
         int count = 0;
@@ -29,6 +22,7 @@ public class CocineroJefe extends CocineroAyudante {
         
         this.cocina.setTotalDelay(this.cocina.getTotalDelay() + count);
         
+        this.ocupado = false;
         return count;
     }
     

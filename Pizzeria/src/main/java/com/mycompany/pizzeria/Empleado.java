@@ -10,7 +10,7 @@ package com.mycompany.pizzeria;
  */
 abstract class Empleado {
     
-    private String id;
-    private boolean ocupado;
+    protected String id;
+    protected boolean ocupado;
     
 }
