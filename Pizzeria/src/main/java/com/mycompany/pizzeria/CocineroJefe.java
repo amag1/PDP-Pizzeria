@@ -2,8 +2,8 @@ package com.mycompany.pizzeria;
 
 public class CocineroJefe extends CocineroAyudante {
 
-    public CocineroJefe(Cocina cocina) {
-        super(cocina);
+    public CocineroJefe(Cocina cocina, String id, boolean ocupado) {
+        super(cocina, id, ocupado);
     }
     
     //Dada una orden, devuelve el tiempo de preparacion total

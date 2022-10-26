@@ -12,5 +12,11 @@ abstract class Empleado {
     
     protected String id;
     protected boolean ocupado;
+
+    public Empleado(String id, boolean ocupado) {
+        this.id = id;
+        this.ocupado = ocupado;
+    }
+    
     
 }

@@ -4,7 +4,8 @@ public class Cajero extends Empleado {
     
     private int totalGanado;
 
-    public Cajero(int totalGanado) {
+    public Cajero(int totalGanado, String id, boolean ocupado) {
+        super(id, ocupado);
         this.totalGanado = totalGanado;
     }
 

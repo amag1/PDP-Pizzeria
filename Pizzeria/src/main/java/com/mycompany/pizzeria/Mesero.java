@@ -8,10 +8,14 @@ public class Mesero extends Empleado {
     private Cocina cocinaPizzeria;
     
     //Constructor para mesero (con ambos argumentos)
-    public Mesero(int totalClientes, Cocina cocinaPizzeria) {
+
+    public Mesero(int totalClientes, int totalOrdenes, Cocina cocinaPizzeria, String id, boolean ocupado) {
+        super(id, ocupado);
         this.totalClientes = totalClientes;
+        this.totalOrdenes = totalOrdenes;
         this.cocinaPizzeria = cocinaPizzeria;
     }
+    
 
     public int getTotalOrdenes() {
         return totalOrdenes;

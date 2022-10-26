@@ -3,10 +3,12 @@ package com.mycompany.pizzeria;
 public class CocineroAyudante extends Empleado {
     
     protected Cocina cocina;
-    
-    public CocineroAyudante(Cocina cocina) {
+
+    public CocineroAyudante(Cocina cocina, String id, boolean ocupado) {
+        super(id, ocupado);
         this.cocina = cocina;
     }
+    
 
     public Cocina getCocina() {
         return cocina;
