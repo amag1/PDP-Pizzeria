@@ -1,39 +1,44 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.pizzeria;
 
 import java.util.ArrayList;
 
 /**
- *
+ * Clase que contiene la represnetacion de una mesa.
+ * Constantes para su numero y capacidad.
+ * Atributos de instancia para su status y los clientes que contiene.
+ * Implementa la interfaz Comparable para poder ordenar una lista de Mesas.
  * @author andres
  */
-public class Mesa {
+public class Mesa implements Comparable<Mesa> {
     
-    private int numero;
-    private int capacidad; //puede ser 2 o 4
+    private final int numero;
+    private final int capacidad; //puede ser 2 o 4
     private boolean ocupada;
     private ArrayList<Cliente> listaClientes;
-
-    public Mesa(int numero, int capacidad, boolean ocupada, ArrayList<Cliente> listaClientes) {
+    private boolean atendida;
+    
+    /**
+     * Construye una mesa vacia dados un numero y su capacidad.
+     * @param numero Numero de mesa.
+     * @param capacidad Capacidad de la mesa (en este caso puede ser 2 o 4).
+     */
+    public Mesa(int numero, int capacidad) {
         this.numero = numero;
         this.capacidad = capacidad;
-        this.ocupada = ocupada;
-        this.listaClientes = listaClientes;
+        this.ocupada = false;
+        this.listaClientes = new ArrayList();
     }
 
     public int getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public boolean isAtendida() {
+        return atendida;
     }
 
-    public void setCapacidad(int capacidad) {
-        this.capacidad = capacidad;
+    public void setAtendida(boolean atendida) {
+        this.atendida = atendida;
     }
 
     public void setOcupada(boolean ocupada) {
@@ -56,6 +61,16 @@ public class Mesa {
         return listaClientes;
     }
     
+    /**
+     * Implementacion del metodo abstracto compareTo.
+     * @param t La mesa a la que deseamos comparar la actual.
+     * @return 0, si ambas mesas tienen la misma capacidad, > 0, si la mesa actual es mas grande que t, y < 0 de otro modo.
+     */
+    @Override
+    public int compareTo(Mesa t) {
+        
+        return this.getCapacidad() - t.getCapacidad();
+    }
     
     
 }

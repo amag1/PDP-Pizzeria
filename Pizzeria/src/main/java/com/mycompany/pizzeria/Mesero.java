@@ -1,50 +1,58 @@
 package com.mycompany.pizzeria;
 
+import java.util.List;
 
+
+/**
+ * Clase que simula un Mesero. Hereda de Empleado.
+ * Se encarga principalmente de tomar pedidos y colocarlos en la cocina
+ * @author andres
+ */
 public class Mesero extends Empleado {
     
     private int totalClientes;
     private int totalOrdenes;
-    private Cocina cocinaPizzeria;
+    private List<Comida> listaComidas;
+    private List<Bebida> listaBebidas;
     
-    //Constructor para mesero (con ambos argumentos)
-
-    public Mesero(int totalClientes, int totalOrdenes, Cocina cocinaPizzeria, String id, boolean ocupado) {
-        super(id, ocupado);
-        this.totalClientes = totalClientes;
-        this.totalOrdenes = totalOrdenes;
-        this.cocinaPizzeria = cocinaPizzeria;
+    /**
+     * Constructor para mesero. Inicializa los atributos que requiere Empleado.
+     * Setea los atributos propios de cliente en cero.
+     * @param id ID del empleado
+     */
+    public Mesero(String id) {
+        super(id, false);
+        this.totalClientes = 0;
+        this.totalOrdenes = 0;
     }
     
 
-    public int getTotalOrdenes() {
-        return totalOrdenes;
+    public List<Mesa> getListaMesas(Pizzeria p){
+        return p.getListaMesas();
     }
-
-    public void setTotalOrdenes(int totalOrdenes) {
-        this.totalOrdenes = totalOrdenes;
-    }
-    
-    
+     
     public int getTotalClientes() {
         return totalClientes;
     }
 
-    public Cocina getCocinaPizzeria() {
-        return cocinaPizzeria;
-    }
 
     public void setTotalClientes(int totalClientes) {
         this.totalClientes = totalClientes;
     }
     
-    //Dada una comida, analiza la lista de ingredientes y determina si hay suficiente stock
-    public boolean verificarInventarioComida(Comida c){
+    
+    /**
+     * Dada una comida, verifica si hay stock para prepararla
+     * @param c La comida a verificar
+     * @param cocinaPizzeria La cocina de la que queremos analizar el stock
+     * @return Un booleano que nos dice si hay (true) o no (false) stock suficiente.
+     */
+    public boolean verificarInventarioComida(Comida c, Cocina cocinaPizzeria){
     
         this.ocupado = true;
         
         for (String key : c.getIngredientes().keySet()){
-            if (c.getIngredientes().get(key) > this.cocinaPizzeria.getStock().get(key)){
+            if (c.getIngredientes().get(key) > cocinaPizzeria.getStock().get(key)){
                 return false;
             }
         }
@@ -52,47 +60,66 @@ public class Mesero extends Empleado {
         return true;
     }
     
-    public boolean verificarInventarioBebida(Bebida b){
-        return (this.cocinaPizzeria.getStock().get(b.getIngredientes()) > 0);
+    public boolean verificarInventarioBebida(Bebida b, Cocina cocinaPizzeria){
+        return (cocinaPizzeria.getStock().get(b.getIngredientes()) > 0);
     }
     
+    public Comida getComidaGivenString(String nombre){
+        for (Comida c : this.listaComidas){
+            if (c.getNombre().compareTo(nombre) == 0)
+                return c;
+        }
+        
+        return new Comida();
+    }
+    
+    public Bebida getBebidaGivenString(String nombre){
+        for (Bebida b : this.listaBebidas){
+            if (b.getNombre().compareTo(nombre) == 0)
+                return b;
+        }
+        
+        return new Bebida();
+    }
     //El mesero toma una mesa y genera un pedido, preguntando a cada cliente
     //Crea un objeto de clase orden y lo coloca en la cocina
-    public void tomarOrden(Mesa m){
-        Orden ord = new Orden(m);
+    public void tomarOrden(Mesa m, Cocina cocina){
+        this.ocupado = true;
+        
+        Orden ord = new Orden(m.getNumero());
         
         this.totalOrdenes++;
+        
         for (Cliente clim : m.getListaClientes()){
             
             this.totalClientes++;
             
             //Si hay stock, el cliente pide su comida favorita
-            Comida comidaPedido = clim.getComidaFavorita();
+            Comida comidaPedido = getComidaGivenString(clim.getComidaFavorita());
             
-            //De otro modo, el cliente hace un pedido random con un metodo propio
-            while (!this.verificarInventarioComida(comidaPedido)){
-                comidaPedido = clim.pedirComida();
+            if (!verificarInventarioComida(comidaPedido, cocina)){
+                comidaPedido = new Comida();
+
             }
             
             ord.addToListaComidas(comidaPedido);
             
             //Se repite lo mismo para la bebida
-            Bebida bebidaPedido = clim.getBebidaFavorita();
+            Bebida bebidaPedido = getBebidaGivenString(clim.getBebidaFavorita());
             
-            while (!this.verificarInventarioBebida(bebidaPedido)){
-                
-             bebidaPedido = clim.pedirBebida();
-             
-            }
+            if (!verificarInventarioBebida(bebidaPedido, cocina))
             
             ord.addToListaBebidas(bebidaPedido);
             
             //se actualiza el precio total de la orden
             ord.setPrecio(ord.getPrecio() + comidaPedido.getPrecio() + bebidaPedido.getPrecio());
             
+            int tiempoActual = Integer.max(bebidaPedido.getTiempoConsumo(), comidaPedido.getTiempoConsumo());
+            
+            ord.setTiempoConsumo(Integer.max(ord.getTiempoConsumo(), tiempoActual));
         }
         //finalmente se pone la orden al final de la cola en la cocina
-        this.cocinaPizzeria.addLastListaOrdenes(ord);
+        cocina.addLastListaOrdenes(ord);
         
         this.ocupado = false;
     }

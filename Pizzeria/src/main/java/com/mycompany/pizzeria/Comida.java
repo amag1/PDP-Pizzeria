@@ -4,15 +4,6 @@ package com.mycompany.pizzeria;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author andres
- */
 public class Comida {
     
     private String nombre;
@@ -21,6 +12,10 @@ public class Comida {
     private int tiempoConsumo;
     private int precio;
 
+    public Comida() {
+    }
+
+    
     public Comida(String nombre, HashMap<String,Integer> ingredientes, int tiempoPreparacion, int tiempoConsumo, int precio) {
         this.nombre = nombre;
         this.ingredientes = ingredientes;

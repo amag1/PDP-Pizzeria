@@ -16,6 +16,10 @@ public class Bebida {
     private int tiempoConsumo;
     private int precio;
 
+    public Bebida() {
+    }
+    
+    
     public Bebida(String nombre, int tiempoConsumo, int precio) {
         this.nombre = nombre;
         this.ingredientes = nombre;

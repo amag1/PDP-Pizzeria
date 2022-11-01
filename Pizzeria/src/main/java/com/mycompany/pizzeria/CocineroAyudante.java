@@ -1,15 +1,26 @@
 package com.mycompany.pizzeria;
 
+/**
+ * Clase que represnta a un cocinero Ayudante.
+ * Hereda las caracteristicas de un empleado.
+ * Se encarga de hacer preparaciones
+ * @author andres
+ */
 public class CocineroAyudante extends Empleado {
     
     protected Cocina cocina;
-
-    public CocineroAyudante(Cocina cocina, String id, boolean ocupado) {
-        super(id, ocupado);
+    
+    /**
+     * Constructor para CocineroAyudante: necesita la cocina a la que pertenece y el nombre.
+     * @param cocina Cocina a la que pertenece el empleado.
+     * @param id Nombre del cocinero.
+     */
+    public CocineroAyudante(Cocina cocina, String id) {
+        super(id, false);
         this.cocina = cocina;
     }
     
-
+    
     public Cocina getCocina() {
         return cocina;
     }
@@ -18,9 +29,12 @@ public class CocineroAyudante extends Empleado {
         this.cocina = cocina;
     }
     
-    //metodo que "hace una preparacion"
-    //Dada una orden, reduce su tiempo de preparacion a la mitad
-    //Devuelve lo que demoro en hacerlo
+    /**
+     * Metodo que "hace una preparacion".
+     * Toma una orden y reduce su tiempo de preparacion a la mitad.
+     * @param ord La orden que deseamos preparar.
+     * @return El tiempo que le tomo al cocinero prepararla.
+     */
     public int hacerPreparacion(Orden ord){
         
         int count = 0;
