@@ -6,39 +6,43 @@ package com.mycompany.pizzeria;
  * terminar las preparaciones
  * @author andres
  */
-public class CocineroJefe extends CocineroAyudante {
+public class CocineroJefe extends Empleado {
     
     /**
      * Constructor para el cocinero.
      * @param cocina La cocina a la que pertenece.
      * @param id ID del cocinero.
      */
-    public CocineroJefe(Cocina cocina, String id) {
-        super(cocina, id);
+    public CocineroJefe(String id) {
+        super(id, false);
     }
     
     /**
-     * Toma la primera orden que haya para hacer y termina con su preparacion.
-     * Necesita accerder a la cola FIFO de ordenes presente en la cocina.
-     * @return Un entero representando el tiempo que le tomo cocinar.
+     * Toma la primera orden que haya para hacer y disminuye en 1 el tiempo restante.
+     * Desde la cocina se le pasa la orden a preparar.
+     * @return 0, si la orden fue terminada; 1, si la comida fue terminada pero la orden no; 2, en otro caso.
      */
-    public int cocinar(){
-        this.ocupado = true;
-        Orden first = cocina.getFirstListaOrdenes();
+    public int cocinar(Orden ord){
         
-        int count = 0;
         
-        for (Comida c : first.getListaComidas()){
+        Comida plato = ord.getListaComidas().get(0);
+        
+        int tiempoRestante = plato.getTiempoPreparacion();
+        
+        if (tiempoRestante == 1){
             
-            count += c.getTiempoPreparacion();
+            plato.setTiempoPreparacion(0);
+            
+            if (ord.getListaComidas().size() == 1)
+                return 0;
+            else
+                return 1;
         }
         
-        this.cocina.removeFirstListaOrdenes();
-        
-        this.cocina.setTotalDelay(this.cocina.getTotalDelay() + count);
-        
-        this.ocupado = false;
-        return count;
+        else{
+            plato.setTiempoPreparacion(tiempoRestante-1);
+            return 2;
+        }
     }
     
 }

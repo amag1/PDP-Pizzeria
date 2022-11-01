@@ -123,24 +123,23 @@ public class Cocina {
         listaEntregas.add(ord);
     }
     
+    /**
+     * Metodo para cocinar en cada turno.
+     * Recorre la lista de cocineros y a cada uno lo manda a cocinar una orden.
+     * Se encarga de quitar las ordenes de la cola.
+     */
     public void cocinarTurno(){
         
         for (CocineroJefe cocinero : cocinerosJ){
             
-            Comida plato = getFirstListaOrdenes().getListaComidas().get(0);
-            
-            if (plato.getTiempoPreparacion() == 1){
+            if (cocinero.cocinar(getFirstListaOrdenes()) == 0){
                 
                 addLastListaEntregas(getFirstListaOrdenes());
                 removeFirstListaOrdenes();
             }
             
-            else{
-                
-                plato.setTiempoPreparacion(plato.getTiempoPreparacion() - 1);
-                
-            }
         }
+    
     }
     
 }

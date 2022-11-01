@@ -7,9 +7,7 @@ package com.mycompany.pizzeria;
  * @author andres
  */
 public class CocineroAyudante extends Empleado {
-    
-    protected Cocina cocina;
-    
+        
     /**
      * Constructor para CocineroAyudante: necesita la cocina a la que pertenece y el nombre.
      * @param cocina Cocina a la que pertenece el empleado.
@@ -17,18 +15,10 @@ public class CocineroAyudante extends Empleado {
      */
     public CocineroAyudante(Cocina cocina, String id) {
         super(id, false);
-        this.cocina = cocina;
     }
     
     
-    public Cocina getCocina() {
-        return cocina;
-    }
-
-    public void setCocina(Cocina cocina) {
-        this.cocina = cocina;
-    }
-    
+   
     /**
      * Metodo que "hace una preparacion".
      * Toma una orden y reduce su tiempo de preparacion a la mitad.
