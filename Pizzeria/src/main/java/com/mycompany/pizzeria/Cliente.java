@@ -13,22 +13,12 @@ import java.util.Random;
  */
 abstract class Cliente {
     
-    protected final String id; 
+    protected String id; 
     protected boolean atendido; 
     protected String comidaFavorita;
     protected String bebidaFavorita;
 
-    /**
-     * Crea un cliente dadas sus comidas favoritas y nombre
-     * @param id Nombre del cliente
-     * @param comidaFavorita String que representa la comida favorita
-     * @param bebidaFavorita String que representa la bebida favorita
-     * @param atendido Boolean que indica si esta atendido o no
-     */
-    public Cliente(String id, String comidaFavorita, String bebidaFavorita) {
-        this.id = id;
-        this.comidaFavorita = comidaFavorita;
-        this.bebidaFavorita = bebidaFavorita;
+    public Cliente() {
         this.atendido = false;
     }
     

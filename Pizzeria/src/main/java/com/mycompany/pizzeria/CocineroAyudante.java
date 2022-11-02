@@ -1,7 +1,7 @@
 package com.mycompany.pizzeria;
 
 /**
- * Clase que represnta a un cocinero Ayudante.
+ * Clase que representa a un cocinero Ayudante.
  * Hereda las caracteristicas de un empleado.
  * Se encarga de hacer preparaciones
  * @author andres
