@@ -142,4 +142,13 @@ public class Cocina {
     
     }
     
+    public void showEstadoIngredientes(){
+        
+        System.out.println("Estado actual de los ingredientes:");
+        for (String ingr : stock.keySet()){
+            String amt = stock.get(ingr).toString();
+            System.out.println(ingr + ": " + amt);
+        }
+        
+    }
 }
