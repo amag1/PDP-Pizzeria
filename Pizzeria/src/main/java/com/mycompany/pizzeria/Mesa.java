@@ -1,6 +1,7 @@
 package com.mycompany.pizzeria;
 
 import java.util.ArrayList;
+import com.mycompany.clientes.Cliente;
 
 /**
  * Clase que contiene la represnetacion de una mesa.

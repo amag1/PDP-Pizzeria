@@ -1,7 +1,7 @@
 package com.mycompany.pizzeria;
 
 import java.util.List;
-
+import com.mycompany.clientes.Cliente;
 
 /**
  * Clase que simula un Mesero. Hereda de Empleado.

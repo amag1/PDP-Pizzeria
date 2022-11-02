@@ -2,17 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.pizzeria;
+package com.mycompany.clientes;
 
 /**
- * Subclase de Cliente para instanciar Estudiantes
+ * Subclase de Cliente para instanciar Ninios
  * @author longh
  */
-public class Estudiante extends Cliente {
-    public Estudiante (){
+public class Ninio extends Cliente {
+    public Ninio (){
         super();
-        this.id = "Estudiante";
-        this.comidaFavorita = "Pizza";
+        this.id = "Ninio";
+        this.comidaFavorita = "Hamburguesa";
         this.bebidaFavorita = "Gaseosa";
     }
 }

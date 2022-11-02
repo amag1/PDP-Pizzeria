@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
+import com.mycompany.clientes.Cliente;
 
 /**
  * Clase muy general que representa a la pizzeria.

@@ -1,4 +1,4 @@
-package com.mycompany.pizzeria;
+package com.mycompany.clientes;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,7 +11,7 @@ import java.util.Random;
  * Tambien tiene un atributo de instancia indicando si esta atendido
  * @author andres
  */
-abstract class Cliente {
+public abstract class Cliente {
     
     protected String id; 
     protected boolean atendido; 

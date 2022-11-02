@@ -1,6 +1,7 @@
 package com.mycompany.pizzeria;
 
 import java.util.HashMap;
+import com.mycompany.clientes.Cliente;
 
 public class Gerente extends Empleado {
 
