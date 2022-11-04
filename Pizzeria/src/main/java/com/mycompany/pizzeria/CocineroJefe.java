@@ -6,7 +6,7 @@ package com.mycompany.pizzeria;
  * terminar las preparaciones
  * @author andres
  */
-public class CocineroJefe extends Empleado {
+public class CocineroJefe extends CocineroAyudante {
     
     /**
      * Constructor para el cocinero.
@@ -14,7 +14,7 @@ public class CocineroJefe extends Empleado {
      * @param id ID del cocinero.
      */
     public CocineroJefe(String id) {
-        super(id, false);
+        super(id);
     }
     
     /**

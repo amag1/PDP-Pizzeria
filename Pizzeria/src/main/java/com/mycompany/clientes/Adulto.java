@@ -9,9 +9,9 @@ package com.mycompany.clientes;
  * @author longh
  */
 public class Adulto extends Cliente {
-    public Adulto (){
+    public Adulto (String type){
         super();
-        this.id = "Padre";
+        this.id = type;
         this.comidaFavorita = "Hamburguesa";
         this.bebidaFavorita = "Cerveza";
     }

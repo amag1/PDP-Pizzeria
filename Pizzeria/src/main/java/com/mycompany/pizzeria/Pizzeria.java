@@ -17,14 +17,16 @@ public class Pizzeria {
     private LinkedList<Mesa> listaMesas;
     private LinkedList<ArrayList<Cliente>> listaEsperando;
     private ArrayList<Mesero> listaMeseros;
+    private ArrayList<CocineroAyudante> listaCocineros;
     private ArrayList<Comida> menuComida;
     private ArrayList<Bebida> menuBebida;
     private Cocina cocinaPizzeria;
     
 
-    public Pizzeria(LinkedList<Mesa> listaMesas, ArrayList<Mesero> listaEmpleados, ArrayList<Comida> menuComida, ArrayList<Bebida> menuBebida) {
+    public Pizzeria(LinkedList<Mesa> listaMesas, ArrayList<Mesero> listaMeseros, ArrayList<CocineroAyudante> listaCocineros, ArrayList<Comida> menuComida, ArrayList<Bebida> menuBebida) {
         this.listaMesas = listaMesas;
-        this.listaMeseros = listaEmpleados;
+        this.listaMeseros = listaMeseros;
+        this.listaCocineros = listaCocineros;
         this.menuComida = menuComida;
         this.menuBebida = menuBebida;
         this.listaEsperando = new LinkedList();
@@ -81,6 +83,11 @@ public class Pizzeria {
         this.listaEsperando.add(l);
     }
     
+    public boolean thereAreClients(){
+        if (!this.listaEsperando.isEmpty())
+            return true;
+        return false;       
+    }
     
     public Mesero getMeseroLibre(){
         for (Mesero m : listaMeseros){

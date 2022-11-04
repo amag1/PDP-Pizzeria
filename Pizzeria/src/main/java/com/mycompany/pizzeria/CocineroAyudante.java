@@ -13,7 +13,7 @@ public class CocineroAyudante extends Empleado {
      * @param cocina Cocina a la que pertenece el empleado.
      * @param id Nombre del cocinero.
      */
-    public CocineroAyudante(Cocina cocina, String id) {
+    public CocineroAyudante(String id) {
         super(id, false);
     }
     
