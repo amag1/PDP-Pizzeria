@@ -12,7 +12,7 @@ import com.mycompany.clientes.Cliente;
  * La pizzeria esta formada por listas de Mesas, Clientes, y Empleados.
  * @author andres
  */
-public class Pizzeria {
+public class Pizzeria implements PartePizzeria{
 
     private LinkedList<Mesa> listaMesas;
     private LinkedList<ArrayList<Cliente>> listaEsperando;
@@ -21,16 +21,26 @@ public class Pizzeria {
     private ArrayList<Comida> menuComida;
     private ArrayList<Bebida> menuBebida;
     private Cocina cocinaPizzeria;
+    private int totalDemora;
+    private int totalMesas;
+    private int totalacomodados;
     
 
-    public Pizzeria(LinkedList<Mesa> listaMesas, ArrayList<Mesero> listaMeseros, ArrayList<CocineroAyudante> listaCocineros, ArrayList<Comida> menuComida, ArrayList<Bebida> menuBebida) {
+    public Pizzeria(LinkedList<Mesa> listaMesas, ArrayList<Mesero> listaMeseros, ArrayList<CocineroAyudante> listaCocineros, ArrayList<Comida> menuComida, ArrayList<Bebida> menuBebida, Cocina c) {
         this.listaMesas = listaMesas;
         this.listaMeseros = listaMeseros;
         this.listaCocineros = listaCocineros;
         this.menuComida = menuComida;
         this.menuBebida = menuBebida;
         this.listaEsperando = new LinkedList();
+        this.cocinaPizzeria = c;
+        this.totalacomodados = 0;
     }
+
+    public int getTotalacomodados() {
+        return totalacomodados;
+    }
+    
     
     /**
      * Metodo para acomodar clientes adentro del local
@@ -38,8 +48,9 @@ public class Pizzeria {
      * 
      */
     public void acomodarClientes() {
+        totalacomodados++;
         //iterador para listaesperando
-        Iterator it = listaEsperando.iterator();
+        Iterator<ArrayList<Cliente>> it = listaEsperando.iterator();
         
         Collections.sort(listaMesas);
         
@@ -47,16 +58,22 @@ public class Pizzeria {
             
             if (!m.isOcupada()){
                 
-                ArrayList<Cliente> i = (ArrayList<Cliente>) it.next();
+                boolean flag = true; 
                 
-                while (it.hasNext() && i.size() > m.getCapacidad()){
-                    i = (ArrayList<Cliente>) it.next();
+                
+                while (it.hasNext() && flag){
+                    ArrayList<Cliente> i = it.next();
+                    if (i.size() <= m.getCapacidad()){
+                        it.remove();
+                        //finalmente actualiza el status de la mesa y remueve a los clientes de la cola
+                        m.setListaClientes(i);
+                        m.setOcupada(true);
+                        m.setAtendida(false);
+                    }
                 }
                 
-                //finalmente actualiza el status de la mesa y remueve a los clientes de la cola
-                m.setListaClientes(i);
-                m.setOcupada(true);
-                listaEsperando.remove(i);
+                
+                
                 
             }
         }
@@ -71,8 +88,17 @@ public class Pizzeria {
      * @param m La mesa a desocupar
      */
     public void vaciarMesa(Mesa m){
+        
         m.setOcupada(false);
+        m.setAtendida(false);
         m.setListaClientes(new ArrayList());
+        m.setTiempoConsumo(0);
+        System.out.println(m.getTiempoEspera());
+        this.totalDemora += m.getTiempoEspera();
+        m.setTiempoEspera(0);
+        
+        this.totalMesas++;
+        
     }
     
     /**
@@ -84,27 +110,63 @@ public class Pizzeria {
     }
     
     public boolean thereAreClients(){
-        if (!this.listaEsperando.isEmpty())
-            return true;
-        return false;       
+        return (!this.listaEsperando.isEmpty());
     }
     
-    public Mesero getMeseroLibre(){
+   
+    
+    public void tomarPedidos(int tiempoActual){
         for (Mesero m : listaMeseros){
-            if (!m.ocupado)
-                m.setOcupado(true);
+            
+          if (!m.isOcupado()){
+              
+          Iterator<Mesa>  iter = listaMesas.iterator();
+          
+          boolean flag = true; 
+          
+          while (iter.hasNext() & flag){
+              
+            Mesa i = iter.next();
+            
+            if (i.isOcupada() && !i.isAtendida()){
+                i.setAtendida(true);
+                m.tomarOrden(tiempoActual,i, cocinaPizzeria,menuComida,menuBebida);
+                flag = false;
+            }
+            
+                
+        }  
+        }
+        }
+        
+    }
+    
+    public void entregarPedidos(int tiempoActual){
+        
+        for (Mesero mesero : listaMeseros){
+            
+            if (!mesero.isOcupado()){
+                
+                if (cocinaPizzeria.getListaEntregas().size() > 0){
+                    
+                    Orden ord = cocinaPizzeria.getFirstListaEntregas();
+                    Mesa m = hallarMesa(ord);
+                    cocinaPizzeria.removeFirstListaEntregas();
+                    ord.setHoraEntrega(tiempoActual);
+                    mesero.entregarOrden(ord, m);
+                }
+            }
+        }
+    }
+    
+    public Mesa hallarMesa(Orden ord){
+        
+        for (Mesa m : listaMesas){
+            if (m.getNumero() == ord.getNumMesa())
                 return m;
         }
         
         return null;
-    }
-    
-    public void tomarPedidos(Mesero m){
-        
-        for (Mesa mesa : listaMesas){
-            if (!mesa.isOcupada())
-                m.tomarOrden(mesa, cocinaPizzeria);
-        }
     }
     
     public CocineroJefe getCocineroLibre(){
@@ -117,5 +179,61 @@ public class Pizzeria {
         return null;
     }
     
-    //public void updateCocina()
+    public void updateMesas(){
+        for (Mesa mesa : listaMesas){
+            if (mesa.isOcupada() && mesa.getTiempoEspera() != 0){
+            if (mesa.getTiempoConsumo() > 0)
+                mesa.setTiempoConsumo(mesa.getTiempoConsumo() - 1);
+            else{
+                System.out.println("mesavacia");
+                vaciarMesa(mesa);}
+            
+            }
+            
+        }
+    }
+    
+    public void resetMeseros(){
+        for (Mesero m : listaMeseros){
+            m.setOcupado(false);
+        }
+    }
+    
+    public void cocinar(){
+        this.cocinaPizzeria.hacerPreparaciones();
+        this.cocinaPizzeria.cocinarTurnoActual();
+    }
+
+    public int getTotalDemora() {
+        return totalDemora;
+    }
+
+    public void setTotalDemora(int totalDemora) {
+        this.totalDemora = totalDemora;
+    }
+
+    public int getTotalMesas() {
+        return totalMesas;
+    }
+
+    public void setTotalMesas(int totalMesas) {
+        this.totalMesas = totalMesas;
+    }
+
+    @Override
+    public void mostrarEstado() {
+        int desocupadas = 0;
+        for (Mesa m : this.listaMesas){
+            if (m.isOcupada() == false){
+                desocupadas++;
+            }
+        }
+        
+        System.out.println("Actualmente hay " + desocupadas + " mesas desocupadas");
+    }
+
+    @Override
+    public void mostrarTotales() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

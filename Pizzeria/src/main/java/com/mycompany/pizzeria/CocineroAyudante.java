@@ -25,20 +25,10 @@ public class CocineroAyudante extends Empleado {
      * @param ord La orden que deseamos preparar.
      * @return El tiempo que le tomo al cocinero prepararla.
      */
-    public int hacerPreparacion(Orden ord){
+    public void hacerPreparacion(Orden ord){
+        ord.setTiempoPreparacion(ord.getTiempoPreparacion()/2);
+        ord.setPreparada(true);
         
-        int count = 0;
-        
-        for (Comida item : ord.getListaComidas()){
-            
-            int tiempo = item.getTiempoPreparacion()/2;
-            
-            item.setTiempoPreparacion(tiempo);
-            
-            count += tiempo;
-        }
-        
-        return count;
     }
     
 }

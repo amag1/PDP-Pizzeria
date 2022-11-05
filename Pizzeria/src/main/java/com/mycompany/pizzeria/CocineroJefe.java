@@ -24,25 +24,20 @@ public class CocineroJefe extends CocineroAyudante {
      */
     public int cocinar(Orden ord){
         
-        
-        Comida plato = ord.getListaComidas().get(0);
-        
-        int tiempoRestante = plato.getTiempoPreparacion();
-        
+        int tiempoRestante = ord.getTiempoPreparacion();
+        System.out.println("tiempo restante: " + tiempoRestante);
         if (tiempoRestante == 1){
             
-            plato.setTiempoPreparacion(0);
-            
-            if (ord.getListaComidas().size() == 1)
-                return 0;
-            else
-                return 1;
+            ord.setTiempoPreparacion(0);
+            return 0;
         }
-        
         else{
-            plato.setTiempoPreparacion(tiempoRestante-1);
-            return 2;
+            ord.setTiempoPreparacion(tiempoRestante - 1);
+            return 1;
         }
-    }
-    
+            
+            
+           
+}   
+
 }

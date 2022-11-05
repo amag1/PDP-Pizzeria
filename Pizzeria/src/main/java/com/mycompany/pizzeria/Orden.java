@@ -16,10 +16,10 @@ public class Orden {
     private LinkedList<Bebida> listaBebidas;
     private int precio;
     private int horaPedido;
-    private int horaComienzoCocina;
     private int horaEntrega;
     private int tiempoConsumo;
     private boolean preparada;
+    private int tiempoPreparacion;
 
     /**
      * Dada una mesa, inicializa una orden vacia.
@@ -31,7 +31,6 @@ public class Orden {
         this.listaBebidas = new LinkedList();
         this.precio = 0;
         this.horaPedido = 0;
-        this.horaComienzoCocina = 0;
         this.horaEntrega = 0;
         this.tiempoConsumo = 0;
     }
@@ -103,20 +102,20 @@ public class Orden {
         this.horaPedido = horaPedido;
     }
 
-    public int getHoraComienzoCocina() {
-        return horaComienzoCocina;
-    }
-
-    public void setHoraComienzoCocina(int horaComienzoCocina) {
-        this.horaComienzoCocina = horaComienzoCocina;
-    }
-
     public int getHoraEntrega() {
         return horaEntrega;
     }
 
     public void setHoraEntrega(int horaEntrega) {
         this.horaEntrega = horaEntrega;
+    }
+
+    public int getTiempoPreparacion() {
+        return tiempoPreparacion;
+    }
+
+    public void setTiempoPreparacion(int tiempoPreparacion) {
+        this.tiempoPreparacion = tiempoPreparacion;
     }
     
     

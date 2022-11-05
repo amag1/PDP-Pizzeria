@@ -17,6 +17,8 @@ public class Mesa implements Comparable<Mesa> {
     private boolean ocupada;
     private ArrayList<Cliente> listaClientes;
     private boolean atendida;
+    private int tiempoEspera;
+    private int tiempoConsumo;
     
     /**
      * Construye una mesa vacia dados un numero y su capacidad.
@@ -28,8 +30,19 @@ public class Mesa implements Comparable<Mesa> {
         this.capacidad = capacidad;
         this.ocupada = false;
         this.listaClientes = new ArrayList();
+        this.tiempoEspera = 0;
+        
     }
 
+    public int getTiempoEspera() {
+        return tiempoEspera;
+    }
+
+    public void setTiempoEspera(int tiempoEspera) {
+        this.tiempoEspera = tiempoEspera;
+    }
+
+    
     public int getNumero() {
         return numero;
     }
@@ -60,6 +73,14 @@ public class Mesa implements Comparable<Mesa> {
 
     public ArrayList<Cliente> getListaClientes() {
         return listaClientes;
+    }
+
+    public int getTiempoConsumo() {
+        return tiempoConsumo;
+    }
+
+    public void setTiempoConsumo(int tiempoConsumo) {
+        this.tiempoConsumo = tiempoConsumo;
     }
     
     /**

@@ -2,6 +2,7 @@ package com.mycompany.pizzeria;
 
 import java.util.List;
 import com.mycompany.clientes.Cliente;
+import java.util.HashMap;
 
 /**
  * Clase que simula un Mesero. Hereda de Empleado.
@@ -12,8 +13,7 @@ public class Mesero extends Empleado {
     
     private int totalClientes;
     private int totalOrdenes;
-    private List<Comida> listaComidas;
-    private List<Bebida> listaBebidas;
+
     
     /**
      * Constructor para mesero. Inicializa los atributos que requiere Empleado.
@@ -64,29 +64,40 @@ public class Mesero extends Empleado {
         return (cocinaPizzeria.getStock().get(b.getIngredientes()) > 0);
     }
     
-    public Comida getComidaGivenString(String nombre){
-        for (Comida c : this.listaComidas){
+    public Comida getComidaGivenString(String nombre, List<Comida> listaComidas){
+        for (Comida c : listaComidas){
             if (c.getNombre().compareTo(nombre) == 0)
                 return c;
         }
         
-        return new Comida();
+        HashMap<String,Integer> ingPizza = new HashMap<String,Integer>();
+        ingPizza.put("Prepizza",1);
+        ingPizza.put("Cebolla",1);
+        ingPizza.put("Queso",1);
+        ingPizza.put("Condimentos",1);
+        ingPizza.put("Tomate",1);
+        ingPizza.put("Huevo",1);
+        return new Comida("Pizza",ingPizza,20,30,5);
+
+        
     }
     
-    public Bebida getBebidaGivenString(String nombre){
-        for (Bebida b : this.listaBebidas){
+    public Bebida getBebidaGivenString(String nombre, List<Bebida> listaBebidas){
+        for (Bebida b : listaBebidas){
             if (b.getNombre().compareTo(nombre) == 0)
                 return b;
         }
-        
-        return new Bebida();
+        return new Bebida("Gaseosa",15,1);
     }
     //El mesero toma una mesa y genera un pedido, preguntando a cada cliente
     //Crea un objeto de clase orden y lo coloca en la cocina
-    public void tomarOrden(Mesa m, Cocina cocina){
+    public void tomarOrden(int tiempoActual,Mesa m, Cocina cocina, List<Comida> menuComida, List<Bebida> menuBebida){
+        totalOrdenes++;
         this.ocupado = true;
+        m.setAtendida(true);
         
         Orden ord = new Orden(m.getNumero());
+        ord.setHoraPedido(tiempoActual);
         
         this.totalOrdenes++;
         
@@ -95,7 +106,8 @@ public class Mesero extends Empleado {
             this.totalClientes++;
             
             //Si hay stock, el cliente pide su comida favorita
-            Comida comidaPedido = getComidaGivenString(clim.getComidaFavorita());
+            
+            Comida comidaPedido = getComidaGivenString(clim.getComidaFavorita(),menuComida);
             
             if (!verificarInventarioComida(comidaPedido, cocina)){
                 comidaPedido = new Comida();
@@ -105,7 +117,7 @@ public class Mesero extends Empleado {
             ord.addToListaComidas(comidaPedido);
             
             //Se repite lo mismo para la bebida
-            Bebida bebidaPedido = getBebidaGivenString(clim.getBebidaFavorita());
+            Bebida bebidaPedido = getBebidaGivenString(clim.getBebidaFavorita(), menuBebida);
             
             if (!verificarInventarioBebida(bebidaPedido, cocina))
             
@@ -114,14 +126,21 @@ public class Mesero extends Empleado {
             //se actualiza el precio total de la orden
             ord.setPrecio(ord.getPrecio() + comidaPedido.getPrecio() + bebidaPedido.getPrecio());
             
-            int tiempoActual = Integer.max(bebidaPedido.getTiempoConsumo(), comidaPedido.getTiempoConsumo());
+            int tiempoFinal = Integer.max(bebidaPedido.getTiempoConsumo(), comidaPedido.getTiempoConsumo());
             
-            ord.setTiempoConsumo(Integer.max(ord.getTiempoConsumo(), tiempoActual));
+            ord.setTiempoConsumo(Integer.max(ord.getTiempoConsumo(), tiempoFinal));
+            ord.setTiempoPreparacion(ord.getTiempoPreparacion() + comidaPedido.getTiempoPreparacion());
         }
         //finalmente se pone la orden al final de la cola en la cocina
         cocina.addLastListaOrdenes(ord);
         
-        this.ocupado = false;
+    }
+    
+    public void entregarOrden(Orden ord, Mesa m){
+        
+        this.ocupado = true;
+        m.setTiempoEspera(ord.getHoraEntrega() - ord.getHoraPedido());
+        m.setTiempoConsumo(ord.getTiempoConsumo());
     }
         
     
