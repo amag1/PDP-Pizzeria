@@ -23,7 +23,7 @@ public class Comida {
      * Genera una comida con los atributos vacios.
      */
     public Comida() {
-        nombre = new String();
+        nombre = "Pizza";
         ingredientes = new HashMap<String,Integer>();
         tiempoConsumo = 1;
         tiempoPreparacion = 0;

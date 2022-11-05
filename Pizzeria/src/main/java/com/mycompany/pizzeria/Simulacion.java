@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
-
 /**
  * Clase principal: contiene al metodo main. Desde aqui debe inicializarse la simulacion
  * @author andres
@@ -78,18 +77,15 @@ public class Simulacion {
             //Opcion1
             case 1:
                 control.setFindeSemana(false);
-                control.runPizzeria(cocina, 50);
+                control.runPizzeria(cocina, 30);
                 break;
             //opcion2
             case 2:
                 control.setFindeSemana(true);
                 control.runPizzeria(cocina, 30);
+                break;
                 
         }
-        
-        
-            
-        
 
     }
     
@@ -106,22 +102,22 @@ public class Simulacion {
         if (findeSemana){
             switch(seed){
                 case 1:
-                    for (int i=0;i<=r.nextInt(1);i++)
+                    for (int i=0;i<=r.nextInt(2);i++)
                         
                         grupo.add(new Ninio());
-                    for (int i=0;i<=r.nextInt(1);i++)
+                    for (int i=0;i<=r.nextInt(2);i++)
                         grupo.add(new Adulto("Padre"));
                     break;
                 case 2:
-                    for (int i=0;i<=r.nextInt(2);i++)
+                    for (int i=0;i<=r.nextInt(3);i++)
                         grupo.add(new Adulto("Adulto"));
                     break;
                 case 3:
-                    for (int i=0;i<=r.nextInt(3);i++)
+                    for (int i=0;i<=r.nextInt(4);i++)
                         grupo.add(new Estudiante());
                     break;
                 default:
-                    for (int i=0;i<=r.nextInt(3);i++)
+                    for (int i=0;i<=r.nextInt(4);i++)
                         grupo.add(new Turista());
                     break;
             }
@@ -135,23 +131,23 @@ public class Simulacion {
                         grupo.add(new Adulto("Padre"));
                     break;
                 case 2:
-                    for (int i=0;i<=r.nextInt(3);i++)
+                    for (int i=0;i<=r.nextInt(4);i++)
                         grupo.add(new Adulto("Adulto"));
                     break;
                 case 3:
-                    for (int i=0;i<=r.nextInt(3);i++)
+                    for (int i=0;i<=r.nextInt(4);i++)
                         grupo.add(new Adulto("Adulto"));
                     break;
                 case 4:
-                    for (int i=0;i<=r.nextInt(3);i++)
+                    for (int i=0;i<=r.nextInt(4);i++)
                         grupo.add(new Estudiante());
                     break;
                 case 5:
-                    for (int i=0;i<=r.nextInt(3);i++)
+                    for (int i=0;i<=r.nextInt(4);i++)
                         grupo.add(new Estudiante());
                     break;
                 default:
-                    for (int i=0;i<=r.nextInt(1);i++)
+                    for (int i=0;i<=r.nextInt(3);i++)
                         grupo.add(new Trabajador());
                     break;
             }
@@ -177,18 +173,18 @@ public class Simulacion {
      */
     public HashMap<String, Integer> innitIngredientes(){
         HashMap<String, Integer> ingredientes = new HashMap<String,Integer>();
-        ingredientes.put("Prepizza",100);
-        ingredientes.put("Cebolla",100);
-        ingredientes.put("Queso",100);
-        ingredientes.put("Pan",200);
-        ingredientes.put("Carne molida",100);
-        ingredientes.put("Condimentos",100);
-        ingredientes.put("Tomate",100);
-        ingredientes.put("Lechuga",100);
-        ingredientes.put("Huevo",100);
-        ingredientes.put("Gaseosa", 100);
-        ingredientes.put("Cerveza", 100);
-        ingredientes.put("Huevos", 100);
+        ingredientes.put("Prepizza",200);
+        ingredientes.put("Cebolla",200);
+        ingredientes.put("Queso",200);
+        ingredientes.put("Pan",400);
+        ingredientes.put("Carne molida",200);
+        ingredientes.put("Condimentos",200);
+        ingredientes.put("Tomate",200);
+        ingredientes.put("Lechuga",200);
+        ingredientes.put("Huevo",200);
+        ingredientes.put("Gaseosa", 200);
+        ingredientes.put("Cerveza", 200);
+        ingredientes.put("Huevos", 200);
         ingredientes.put("Harina", 200);
         return ingredientes;
     }
@@ -213,6 +209,7 @@ public class Simulacion {
         ArrayList<CocineroAyudante> listaCocineros = new ArrayList<CocineroAyudante>();
         listaCocineros.add(new CocineroJefe("Pietro"));
         listaCocineros.add(new CocineroJefe("Giorgio"));
+        listaCocineros.add(new CocineroJefe("Luigi"));
         listaCocineros.add(new CocineroAyudante("Anna"));
         listaCocineros.add(new CocineroAyudante("Giulia"));
         listaCocineros.add(new CocineroAyudante("Stefano"));
@@ -246,7 +243,7 @@ public class Simulacion {
         
         menuComida.add(new Comida("Pizza",ingPizza,20,30,6));
         menuComida.add(new Comida("Hamburguesa",ingBurger,15,15,3));
-        menuComida.add(new Comida("Pasta",ingPasta,24, 20, 4));
+        menuComida.add(new Comida("Pasta",ingPasta,23, 20, 4));
         
         return menuComida;
     }
@@ -282,9 +279,6 @@ public class Simulacion {
         cocina.mostrarTotales();
         System.out.println("-----------------");
         this.laTana.mostrarTotales();
-        System.out.println(cocina.getCocinerosJ().size());
-        System.out.println("total de mesas: " + this.laTana.getTotalMesas());
-        System.out.println("clientes esperando: " + this.laTana.getListaEsperando().size());
     }
     
     /**
@@ -293,28 +287,33 @@ public class Simulacion {
      * @param cocina La cocina de la pizzeroa.
      * @param maxMov La cantidad de movimientos que se desea simular.
      */
+    
     public void runPizzeria(Cocina cocina, int maxMov){
         int i = 0;
         int cantMov = 0;
         int nextGroupTimeStamp = 0;
+        boolean flag = true;
         Random r = new Random();
+            System.out.println("----------------");
         System.out.println("Estado inicial de los ingredientes: ");
         cocina.mostrarEstado();
         System.out.println("----------------");
-        while (this.laTana.getTotalMesas() <= maxMov && i < 100000){
+        while (flag){
             //genera tantos movimientos de clientes como le hayamos pedido
             if (i>=nextGroupTimeStamp && cantMov < maxMov){
                 nextGroupTimeStamp=r.nextInt(8)+nextGroupTimeStamp;
                 cantMov++;
-                this.laTana.addToListaClientes(this.generateClientes());    
+                
+                ArrayList<Cliente> newLista = this.generateClientes();
+                this.laTana.addToListaClientes(newLista);    
             }
-
-
+            
+            
+           
 
             //en cada iteracion, verifica si pueden agregarse clientes
             if (this.laTana.thereAreClients())
                 this.laTana.acomodarClientes();
-
 
             this.laTana.tomarPedidos(i);
             this.laTana.cocinar();
@@ -322,7 +321,10 @@ public class Simulacion {
             this.laTana.entregarPedidos(i);
             this.laTana.updateMesas();
             this.laTana.resetMeseros();
-
+           
+            if (this.laTana.getTotalMesas() == maxMov){
+                flag = false;
+            }
             i++;
         
     }

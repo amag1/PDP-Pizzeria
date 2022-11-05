@@ -124,9 +124,11 @@ public class Cocina implements PartePizzeria{
             boolean flag = true;
             
             while (iter.hasNext() && flag){
+                
                 Orden ord = iter.next();
                 if (!ord.isPreparada()){
                     cocinero.hacerPreparacion(ord);
+                    flag = false;
                 }
             }
         }
@@ -150,10 +152,12 @@ public class Cocina implements PartePizzeria{
      * Se encarga de quitar las ordenes de la cola.
      */
     public void cocinarTurnoActual(){
+        
         for (CocineroJefe cocinero : cocinerosJ){
+            
             if (listaOrdenes.size() > 0){
                 if (cocinero.cocinar(getFirstListaOrdenes()) == 0){
-
+                    
                     Orden ultimaOrden = getFirstListaOrdenes();
                     addLastListaEntregas(ultimaOrden);
 
@@ -162,6 +166,7 @@ public class Cocina implements PartePizzeria{
                     for (Comida com : ultimaOrden.getListaComidas()){
 
                         String nombre = com.getNombre();
+                        
                         if (!totalesComidas.containsKey(nombre))
                             totalesComidas.put(nombre,1);
 

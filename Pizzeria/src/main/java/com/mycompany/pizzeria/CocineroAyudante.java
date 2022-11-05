@@ -29,6 +29,7 @@ public class CocineroAyudante extends Empleado {
         ord.setTiempoPreparacion(ord.getTiempoPreparacion()/2);
         ord.setPreparada(true);
         
+        
     }
     
 }

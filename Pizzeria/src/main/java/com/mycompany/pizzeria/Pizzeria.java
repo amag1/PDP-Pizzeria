@@ -49,7 +49,7 @@ public class Pizzeria implements PartePizzeria{
         this.cocinaPizzeria = c;
         this.cajero = cajero;
         this.tiposClientes = new HashMap<>();
-
+        this.totalDemora = 0;
     }
 
     public LinkedList<ArrayList<Cliente>> getListaEsperando() {
@@ -61,33 +61,23 @@ public class Pizzeria implements PartePizzeria{
      * Escanea la lista de mesas y cuando halla una vacia, inserta a los primeros clientes de la cola alli.
     
      */
-    public void acomodarClientes() {
-        //iterador para listaesperando
-        Iterator<ArrayList<Cliente>> it = listaEsperando.iterator();
+    public void acomodarClientes(){
         
-        Collections.sort(listaMesas);
-        
-        for (Mesa m : listaMesas){
+        if (!listaEsperando.isEmpty()){
+            ArrayList<Cliente> clienteActual = listaEsperando.getFirst();
             
-            if (!m.isOcupada() && !m.isAtendida()){
-                
-                boolean flag = true; 
-                
-                
-                while (it.hasNext() && flag){
-                    ArrayList<Cliente> i = it.next();
-                    if (i.size() <= m.getCapacidad()){
-                        it.remove();
-                        //finalmente actualiza el status de la mesa y remueve a los clientes de la cola
-                        m.setListaClientes(i);
-                        m.setOcupada(true);
-                        
-                    }
+            Iterator<Mesa> iter = listaMesas.iterator();
+            boolean flag = true;
+            
+            while (iter.hasNext() && flag){
+                Mesa mesa = iter.next();
+                if (!mesa.isOcupada() && mesa.getCapacidad() >= clienteActual.size()){
+                    listaEsperando.remove(clienteActual);
+                    mesa.setListaClientes(clienteActual);
+                    mesa.setOcupada(true);
+                    flag = false;
+                    
                 }
-                
-                
-                
-                
             }
         }
     }
@@ -104,14 +94,14 @@ public class Pizzeria implements PartePizzeria{
         
         m.setOcupada(false);
         m.setAtendida(false);
+        m.setPedidoEntregado(false);
         m.setListaClientes(new ArrayList());
         m.setTiempoConsumo(0);
-
         this.totalDemora += m.getTiempoEspera();
+
         m.setTiempoEspera(0);
         
         this.totalMesas++;
-        
     }
     
     /**
@@ -180,6 +170,7 @@ public class Pizzeria implements PartePizzeria{
                     cocinaPizzeria.removeFirstListaEntregas();
                     ord.setHoraEntrega(tiempoActual);
                     mesero.entregarOrden(ord, m);
+                    m.setPedidoEntregado(true);
                     cajero.incrGanancias(ord.getPrecio());
                 }
             }
@@ -208,13 +199,15 @@ public class Pizzeria implements PartePizzeria{
      */
     public void updateMesas(){
         for (Mesa mesa : listaMesas){
-            if (mesa.isOcupada() && mesa.getTiempoEspera() != 0){
-            if (mesa.getTiempoConsumo() > 0)
-                mesa.setTiempoConsumo(mesa.getTiempoConsumo() - 1);
-            else{
-                vaciarMesa(mesa);}
-            
-            }
+            if (mesa.isPedidoEntregado()){
+                
+                if (mesa.getTiempoConsumo() > 0){
+                    mesa.setTiempoConsumo(mesa.getTiempoConsumo() - 1);}
+                else
+                    vaciarMesa(mesa);
+
+                }
+                
             
         }
     }
@@ -278,8 +271,10 @@ public class Pizzeria implements PartePizzeria{
             int amt = tiposClientes.get(key);
             System.out.println(key + ": " + amt);
         }
+        System.out.println("----------------");
         System.out.println("La demora promedio para cada mesa fue de " + totalDemora/totalMesas + " minutos");
         System.out.println("El gasto promedio de cada mesa fue de " + cajero.getTotalGanado()/totalMesas + " Euros");
+        System.out.println("El gasto promedio de cada cliente fue de " + cajero.getTotalGanado()/listaMeseros.get(0).getTotalClientes() + " Euros") ;
     }
     
 }

@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class Mesero extends Empleado {
     
-    private int totalClientes;
+    private static int totalClientes;
     private int totalOrdenes;
     private static HashMap<String,Integer> tiposClientes;
 
@@ -54,7 +54,7 @@ public class Mesero extends Empleado {
         this.ocupado = true;
         
         for (String key : c.getIngredientes().keySet()){
-            if (c.getIngredientes().get(key) + 1 > cocinaPizzeria.getStock().get(key)){
+            if (c.getIngredientes().get(key) + 3 > cocinaPizzeria.getStock().get(key)){
                 return false;
             }
         }
@@ -177,7 +177,8 @@ public class Mesero extends Empleado {
     public void entregarOrden(Orden ord, Mesa m){
         
         this.ocupado = true;
-        m.setTiempoEspera(ord.getHoraEntrega()-ord.getHoraPedido());
+        int totalTime = ord.getHoraEntrega() - ord.getHoraPedido();
+        m.setTiempoEspera(totalTime);
         m.setTiempoConsumo(ord.getTiempoConsumo());
     }
         

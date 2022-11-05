@@ -17,6 +17,7 @@ public class Mesa implements Comparable<Mesa> {
     private boolean ocupada;
     private ArrayList<Cliente> listaClientes;
     private boolean atendida;
+    private boolean pedidoEntregado;
     private int tiempoEspera;
     private int tiempoConsumo;
     
@@ -30,11 +31,20 @@ public class Mesa implements Comparable<Mesa> {
         this.capacidad = capacidad;
         this.ocupada = false;
         this.atendida = false;
+        this.pedidoEntregado = false;
         this.listaClientes = new ArrayList();
         this.tiempoEspera = 0;
         
     }
 
+    public boolean isPedidoEntregado() {
+        return pedidoEntregado;
+    }
+
+    public void setPedidoEntregado(boolean pedidoEntregado) {
+        this.pedidoEntregado = pedidoEntregado;
+    }
+    
     public int getTiempoEspera() {
         return tiempoEspera;
     }
