@@ -29,6 +29,7 @@ public class Mesa implements Comparable<Mesa> {
         this.numero = numero;
         this.capacidad = capacidad;
         this.ocupada = false;
+        this.atendida = false;
         this.listaClientes = new ArrayList();
         this.tiempoEspera = 0;
         

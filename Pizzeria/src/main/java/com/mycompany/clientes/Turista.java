@@ -9,6 +9,9 @@ package com.mycompany.clientes;
  * @author longh
  */
 public class Turista extends Cliente {
+    /**
+     * Constructor para turista.
+     */
     public Turista (){
         super();
         this.id = "Turista";

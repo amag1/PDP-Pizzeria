@@ -69,6 +69,11 @@ public class Orden {
         this.listaComidas = listaComidas;
     }
     
+    /**
+     * Aniade un elemento a la lista de comidas.
+     * Formato FIFO
+     * @param c La comida que se desea agregar.
+     */
     public void addToListaComidas(Comida c){
         this.listaComidas.add(c);
     }
@@ -81,6 +86,11 @@ public class Orden {
         this.listaBebidas = listaBebidas;
     }
     
+    /**
+     * Aniade un elemento a la lista de bebidas.
+     * Formato FIFO
+     * @param b La bebida que se desea agregar.
+     */
     public void addToListaBebidas(Bebida b){
         this.listaBebidas.add(b);
     }

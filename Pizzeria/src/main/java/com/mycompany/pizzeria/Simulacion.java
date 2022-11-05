@@ -4,6 +4,7 @@ import com.mycompany.clientes.Cliente;
 import com.mycompany.clientes.Ninio;
 import com.mycompany.clientes.Adulto;
 import com.mycompany.clientes.Estudiante;
+import com.mycompany.clientes.Trabajador;
 import com.mycompany.clientes.Turista;
 
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ import java.util.Scanner;
  */
 public class Simulacion {
     private boolean findeSemana;
-    private Pizzeria laTana;
-            
+    private static Pizzeria laTana;
+    
     public static void main(String[] args) {
         
         Simulacion control = new Simulacion();
@@ -39,12 +40,13 @@ public class Simulacion {
         
         
         //Se crea una pizzeria estandar
-        control.laTana = new Pizzeria(listaMesas,listaMeseros,listaCocineros,menuComida,menuBebida,cocina);
+        control.laTana = new Pizzeria(new Cajero("Marco"),listaMesas,listaMeseros,listaCocineros,menuComida,menuBebida,cocina);
         
         
-        //TODO: menu
+
         Scanner scan = new Scanner(System.in);
         
+        //Menu principal
         System.out.println("Bienvenido a la pizzeria \"La Tana\"");
         System.out.println("Seleccione la opcion que desea visualizar:");
         System.out.println("1: Generar 30 movimientos aleatorios para un dia de semana");
@@ -72,51 +74,30 @@ public class Simulacion {
         
         int nextGroupTimeStamp=0;
         
-        int cantMov=0;
-        
         switch(opcion){
+            //Opcion1
             case 1:
+                control.setFindeSemana(false);
+                control.runPizzeria(cocina, 50);
+                break;
+            //opcion2
+            case 2:
                 control.setFindeSemana(true);
+                control.runPizzeria(cocina, 30);
                 
         }
-        int count = 0;
-        for (int i=0; i<1000;i++){
-            //genera tantos movimientos de clientes como le hayamos pedido
-            if (i>=nextGroupTimeStamp && cantMov<30){
-                nextGroupTimeStamp=r.nextInt(8)+nextGroupTimeStamp;
-                cantMov++;
-                count++;
-                control.laTana.addToListaClientes(control.generateClientes());    
-            }
-            
-            //a cada hora, imprime el estado de los ingredientes
-            if (i % 600 == 0){
-                System.out.println("------------------------------");
-                //cocina.mostrarEstado();
-            }
-            
-            //en cada iteracion, verifica si pueden agregarse clientes
-            if (control.laTana.thereAreClients())
-                control.laTana.acomodarClientes();
-            
-            
-            control.laTana.tomarPedidos(i);
-            control.laTana.cocinar();
-            
-            control.laTana.entregarPedidos(i);
-            control.laTana.updateMesas();
-            control.laTana.resetMeseros();
-
-        }
         
-        cocina.mostrarEstado();
-        System.out.println("Total de mesas que consumieron: " +control.laTana.getTotalMesas());
-        System.out.println("Total de demora para dicahs mesas: " +control.laTana.getTotalDemora());
-        System.out.println("Total de ordenes preparadas:  " + cocina.getTotalPreparadas());
-        System.out.println("Total de grupos acomodados: " + control.laTana.getTotalacomodados());
-        System.out.println("cantidad de grupos creados: " + count);
+        
+            
+        
+
     }
     
+    /**
+     * Metodo que genera un grupo random de clientes
+     * Requiere saber si es fin de semana o no
+     * @return Un arraylist de clientes de un tipo aleatorio
+     */
     public ArrayList<Cliente> generateClientes(){
         ArrayList<Cliente> grupo = new ArrayList<Cliente>();
         Random r = new Random();
@@ -132,7 +113,7 @@ public class Simulacion {
                         grupo.add(new Adulto("Padre"));
                     break;
                 case 2:
-                    for (int i=0;i<=r.nextInt(1);i++)
+                    for (int i=0;i<=r.nextInt(2);i++)
                         grupo.add(new Adulto("Adulto"));
                     break;
                 case 3:
@@ -170,13 +151,17 @@ public class Simulacion {
                         grupo.add(new Estudiante());
                     break;
                 default:
-                    for (int i=0;i<=r.nextInt(2);i++)
-                        grupo.add(new Turista());
+                    for (int i=0;i<=r.nextInt(1);i++)
+                        grupo.add(new Trabajador());
                     break;
             }
         return grupo;
     }
     
+    /**
+     * Crea las 24 mesas especificadas para el problema, 8 de 2 y 16 de 4.
+     * @return una linkedlist de mesas.
+     */
     public LinkedList<Mesa> innitMesas(){
         LinkedList<Mesa> listaMesas = new LinkedList<Mesa>();
         for (int i=1; i<=8;i++)
@@ -184,22 +169,34 @@ public class Simulacion {
         for (int i=9; i<=24;i++)
             listaMesas.add(new Mesa(i, 4));
         return listaMesas;
-    }    
+    }
+    
+    /**
+     * Inicializa el hashmap con ingredientes que se mantiene en la cocina.
+     * @return HashMap de la forma Ingrediente-Cantidad.
+     */
     public HashMap<String, Integer> innitIngredientes(){
         HashMap<String, Integer> ingredientes = new HashMap<String,Integer>();
-        ingredientes.put("Prepizza",50);
-        ingredientes.put("Cebolla",50);
-        ingredientes.put("Queso",50);
-        ingredientes.put("Pan",50);
-        ingredientes.put("Carne molida",50);
-        ingredientes.put("Condimentos",50);
-        ingredientes.put("Tomate",50);
-        ingredientes.put("Lechuga",50);
-        ingredientes.put("Huevo",50);
+        ingredientes.put("Prepizza",100);
+        ingredientes.put("Cebolla",100);
+        ingredientes.put("Queso",100);
+        ingredientes.put("Pan",200);
+        ingredientes.put("Carne molida",100);
+        ingredientes.put("Condimentos",100);
+        ingredientes.put("Tomate",100);
+        ingredientes.put("Lechuga",100);
+        ingredientes.put("Huevo",100);
         ingredientes.put("Gaseosa", 100);
         ingredientes.put("Cerveza", 100);
+        ingredientes.put("Huevos", 100);
+        ingredientes.put("Harina", 200);
         return ingredientes;
-    }    
+    }
+    
+    /**
+     * Inicializa los meseros que tendra la pizzeria.
+     * @return Un ArrayList de meseros genericos
+     */
     public ArrayList<Mesero> innitMeseros(){
         ArrayList<Mesero> listaMeseros = new ArrayList<Mesero>();
         listaMeseros.add(new Mesero("Tonio"));
@@ -207,14 +204,24 @@ public class Simulacion {
         listaMeseros.add(new Mesero("Maria"));
         return listaMeseros;
     }
+    
+    /**
+     * Inicializa los cocineros
+     * @return Un ArrayList con cocineros, tanto jefes como ayudantes
+     */
     public ArrayList<CocineroAyudante> innitCocineros(){
         ArrayList<CocineroAyudante> listaCocineros = new ArrayList<CocineroAyudante>();
         listaCocineros.add(new CocineroJefe("Pietro"));
+        listaCocineros.add(new CocineroJefe("Giorgio"));
         listaCocineros.add(new CocineroAyudante("Anna"));
         listaCocineros.add(new CocineroAyudante("Giulia"));
         listaCocineros.add(new CocineroAyudante("Stefano"));
         return listaCocineros;
     }    
+    /**
+     * Inicializa cada comida del menu con sus ingredientes
+     * @return Un ArrayList de comidas
+     */
     public ArrayList<Comida> innitMenuComida(){
         ArrayList<Comida> menuComida = new ArrayList<Comida>();
         HashMap<String,Integer> ingPizza = new HashMap<String,Integer>();
@@ -233,21 +240,94 @@ public class Simulacion {
         ingBurger.put("Tomate",1);
         ingBurger.put("Lechuga",1);
         ingBurger.put("Huevo",1);
-        menuComida.add(new Comida("Pizza",ingPizza,20,30,5));
+        HashMap<String,Integer> ingPasta = new HashMap<String,Integer>();
+        ingPasta.put("Huevos", 1);
+        ingPasta.put("Harina", 1);
+        
+        menuComida.add(new Comida("Pizza",ingPizza,20,30,6));
         menuComida.add(new Comida("Hamburguesa",ingBurger,15,15,3));
+        menuComida.add(new Comida("Pasta",ingPasta,24, 20, 4));
+        
         return menuComida;
     }
+    /**
+     * Inicializa cada bebida del menu con sus ingredientes
+     * @return Un ArrayList de bebida
+     */
     public ArrayList<Bebida> innitMenuBebida(){
         ArrayList<Bebida> menuBebida = new ArrayList<Bebida>();
-        menuBebida.add(new Bebida("Gaseosa",15,1));
-        menuBebida.add(new Bebida("Cerveza",20,2));
+        menuBebida.add(new Bebida("Gaseosa",1));
+        menuBebida.add(new Bebida("Cerveza",2));
         return menuBebida;
     }
-
+    
+    /**
+     * Establece el boolean fin de semana en verdadero o falso
+     * @param findeSemana El valor que le asignamos a finDeSemana
+     */
     public void setFindeSemana(boolean findeSemana) {
         this.findeSemana = findeSemana;
     }
     
+    /**
+     * Para llamar al final de la ejecucion.
+     * Muestra los totales obtenidos luego de la ejecucion.
+     * @param cocina La cocina de la pizzeria.
+     */
+    public void showTotal(Cocina cocina){
+        System.out.println("Estado final de los ingredientes: ");
+        cocina.mostrarEstado();
+        System.out.println("-----------------");
+        System.out.println("Los productos mas pedidos fueron los siguientes: ");
+        cocina.mostrarTotales();
+        System.out.println("-----------------");
+        this.laTana.mostrarTotales();
+        System.out.println(cocina.getCocinerosJ().size());
+        System.out.println("total de mesas: " + this.laTana.getTotalMesas());
+        System.out.println("clientes esperando: " + this.laTana.getListaEsperando().size());
+    }
     
+    /**
+     * Ejecuta el programa principal.
+     * Aniade clientes, toma pedidos, los cocina y los entrega.
+     * @param cocina La cocina de la pizzeroa.
+     * @param maxMov La cantidad de movimientos que se desea simular.
+     */
+    public void runPizzeria(Cocina cocina, int maxMov){
+        int i = 0;
+        int cantMov = 0;
+        int nextGroupTimeStamp = 0;
+        Random r = new Random();
+        System.out.println("Estado inicial de los ingredientes: ");
+        cocina.mostrarEstado();
+        System.out.println("----------------");
+        while (this.laTana.getTotalMesas() <= maxMov && i < 100000){
+            //genera tantos movimientos de clientes como le hayamos pedido
+            if (i>=nextGroupTimeStamp && cantMov < maxMov){
+                nextGroupTimeStamp=r.nextInt(8)+nextGroupTimeStamp;
+                cantMov++;
+                this.laTana.addToListaClientes(this.generateClientes());    
+            }
+
+
+
+            //en cada iteracion, verifica si pueden agregarse clientes
+            if (this.laTana.thereAreClients())
+                this.laTana.acomodarClientes();
+
+
+            this.laTana.tomarPedidos(i);
+            this.laTana.cocinar();
+
+            this.laTana.entregarPedidos(i);
+            this.laTana.updateMesas();
+            this.laTana.resetMeseros();
+
+            i++;
+        
+    }
+        this.showTotal(cocina);
+        
+}
 }
     

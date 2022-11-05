@@ -23,9 +23,9 @@ public class Cocina implements PartePizzeria{
     private HashMap<String,Integer> totalesComidas;
     
     /**
-     * Crea una cocina dado un HashMap para el stock inicial.
-     * Las demas variables estan inicialmente vacias.
-     * @param stock 
+     * Constructor para una nueva cocina.
+     * @param stock Un hashmap con la lista inicial de ingredientes
+     * @param listaCocineros Los cocineros que forman parte de la cocina
      */
     public Cocina(HashMap<String, Integer> stock,ArrayList<CocineroAyudante> listaCocineros) {
         this.listaEntregas = new LinkedList();
@@ -113,6 +113,9 @@ public class Cocina implements PartePizzeria{
         this.stock = stock;
     }
     
+    /**
+     * Le pide a cada cocinero ayudante que haga preparaciones
+     */
     public void hacerPreparaciones(){
         
         for (CocineroAyudante cocinero : cocinerosA){
@@ -147,32 +150,36 @@ public class Cocina implements PartePizzeria{
      * Se encarga de quitar las ordenes de la cola.
      */
     public void cocinarTurnoActual(){
-        
-        if (listaOrdenes.size() > 0){
-            
-            for (CocineroJefe cocinero : cocinerosJ){
-            
-            if (cocinero.cocinar(getFirstListaOrdenes()) == 0){
-                
-                Orden ultimaOrden = getFirstListaOrdenes();
-                addLastListaEntregas(ultimaOrden);
-                
-                actualizarInventario(ultimaOrden);
-                
-                for (Comida com : ultimaOrden.getListaComidas()){
-                    String nombre = com.getNombre();
-                    
-                    if (!totalesComidas.containsKey(com))
-                        totalesComidas.put(nombre,1);
-                    
-                    else
-                        
-                        totalesComidas.put(nombre, totalesComidas.get(nombre) +1);
-                }
-                
-                System.out.println("remove");
-                removeFirstListaOrdenes();
-                totalPreparadas++;
+        for (CocineroJefe cocinero : cocinerosJ){
+            if (listaOrdenes.size() > 0){
+                if (cocinero.cocinar(getFirstListaOrdenes()) == 0){
+
+                    Orden ultimaOrden = getFirstListaOrdenes();
+                    addLastListaEntregas(ultimaOrden);
+
+
+
+                    for (Comida com : ultimaOrden.getListaComidas()){
+
+                        String nombre = com.getNombre();
+                        if (!totalesComidas.containsKey(nombre))
+                            totalesComidas.put(nombre,1);
+
+                        else
+                            totalesComidas.put(nombre, totalesComidas.get(nombre) + 1);
+                    }
+
+                    for (Bebida beb : ultimaOrden.getListaBebidas()){
+                        String nombre = beb.getNombre();
+                        if (!totalesComidas.containsKey(nombre))
+                            totalesComidas.put(nombre,1);
+
+                        else
+                            totalesComidas.put(nombre, totalesComidas.get(nombre) + 1);
+                    }
+
+                    removeFirstListaOrdenes();
+                    totalPreparadas++;
             }
             
         }
@@ -180,28 +187,49 @@ public class Cocina implements PartePizzeria{
     
     }
     
+    /**
+     * Dada una orden, decrementa las cantidades de los ingredientes.
+     * @param ord La orden que se desea analizar.
+     */
     public void actualizarInventario(Orden ord){
+        
         for (Comida c : ord.getListaComidas()){
             for (HashMap.Entry<String,Integer> entry : c.getIngredientes().entrySet()){
                 String ingrediente = entry.getKey();
                 int cantidad = entry.getValue();
                 
-                c.getIngredientes().put(ingrediente, c.getIngredientes().get(ingrediente) - cantidad);
+                stock.put(ingrediente, stock.get(ingrediente) - cantidad);
             }
+        }
+        
+        for (Bebida b : ord.getListaBebidas()){
+            if (stock.containsKey(b.getNombre()))
+                stock.put(b.getNombre(), stock.get(b.getNombre()) - 1);
         }
     }
 
+    /**
+     * Metodo de la interfaz partePizzeria.
+     * Muestra el estado actual.
+     */
     @Override
     public void mostrarEstado() {
-        System.out.println("Estado actual de los ingredientes:");
         for (String ingr : stock.keySet()){
             String amt = stock.get(ingr).toString();
             System.out.println(ingr + ": " + amt);
         }
     }
-
+    
+    /**
+     * Metodo de la interfaz partePizzeria
+     * Muestra el estado final
+     */
     @Override
     public void mostrarTotales() {
-        System.out.println("aca falta algo");
+        for (String comida : totalesComidas.keySet()){
+            int amt = totalesComidas.get(comida);
+            System.out.println(comida + ": " + amt);
+        }
     }
+
 }

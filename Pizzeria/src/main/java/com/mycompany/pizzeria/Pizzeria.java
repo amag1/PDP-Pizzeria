@@ -4,12 +4,13 @@ import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Random;
 import com.mycompany.clientes.Cliente;
+import java.util.HashMap;
 
 /**
  * Clase muy general que representa a la pizzeria.
  * La pizzeria esta formada por listas de Mesas, Clientes, y Empleados.
+ * Tambien posee el menu y diversos atributos para guardar el estado actual
  * @author andres
  */
 public class Pizzeria implements PartePizzeria{
@@ -20,13 +21,25 @@ public class Pizzeria implements PartePizzeria{
     private ArrayList<CocineroAyudante> listaCocineros;
     private ArrayList<Comida> menuComida;
     private ArrayList<Bebida> menuBebida;
-    private Cocina cocinaPizzeria;
+    private HashMap<String,Integer> tiposClientes;
+    private Cajero cajero;
+    private static Cocina cocinaPizzeria;
     private int totalDemora;
     private int totalMesas;
-    private int totalacomodados;
-    
 
-    public Pizzeria(LinkedList<Mesa> listaMesas, ArrayList<Mesero> listaMeseros, ArrayList<CocineroAyudante> listaCocineros, ArrayList<Comida> menuComida, ArrayList<Bebida> menuBebida, Cocina c) {
+
+    
+    /**
+     * Constructor para pizzeria
+     * @param cajero El cajero de la empresa.
+     * @param listaMesas Lista de objetos tipo mesa.
+     * @param listaMeseros Lista de objetos tipo Mesero.
+     * @param listaCocineros Lista de objetos tipo Cocinero.
+     * @param menuComida Lista de comidas que simulan el menu.
+     * @param menuBebida Lista de bebidas que simulan el menu.
+     * @param c Cocina asociada a la pizzeria.
+     */
+    public Pizzeria(Cajero cajero,LinkedList<Mesa> listaMesas, ArrayList<Mesero> listaMeseros, ArrayList<CocineroAyudante> listaCocineros, ArrayList<Comida> menuComida, ArrayList<Bebida> menuBebida, Cocina c) {
         this.listaMesas = listaMesas;
         this.listaMeseros = listaMeseros;
         this.listaCocineros = listaCocineros;
@@ -34,21 +47,21 @@ public class Pizzeria implements PartePizzeria{
         this.menuBebida = menuBebida;
         this.listaEsperando = new LinkedList();
         this.cocinaPizzeria = c;
-        this.totalacomodados = 0;
+        this.cajero = cajero;
+        this.tiposClientes = new HashMap<>();
+
     }
 
-    public int getTotalacomodados() {
-        return totalacomodados;
+    public LinkedList<ArrayList<Cliente>> getListaEsperando() {
+        return listaEsperando;
     }
     
-    
     /**
-     * Metodo para acomodar clientes adentro del local
-     * Escanea la lista de mesas y cuando halla una vacia, inserta a los primeros clientes de la cola alli
-     * 
+     * Metodo para acomodar clientes adentro del local.
+     * Escanea la lista de mesas y cuando halla una vacia, inserta a los primeros clientes de la cola alli.
+    
      */
     public void acomodarClientes() {
-        totalacomodados++;
         //iterador para listaesperando
         Iterator<ArrayList<Cliente>> it = listaEsperando.iterator();
         
@@ -56,7 +69,7 @@ public class Pizzeria implements PartePizzeria{
         
         for (Mesa m : listaMesas){
             
-            if (!m.isOcupada()){
+            if (!m.isOcupada() && !m.isAtendida()){
                 
                 boolean flag = true; 
                 
@@ -68,7 +81,7 @@ public class Pizzeria implements PartePizzeria{
                         //finalmente actualiza el status de la mesa y remueve a los clientes de la cola
                         m.setListaClientes(i);
                         m.setOcupada(true);
-                        m.setAtendida(false);
+                        
                     }
                 }
                 
@@ -93,7 +106,7 @@ public class Pizzeria implements PartePizzeria{
         m.setAtendida(false);
         m.setListaClientes(new ArrayList());
         m.setTiempoConsumo(0);
-        System.out.println(m.getTiempoEspera());
+
         this.totalDemora += m.getTiempoEspera();
         m.setTiempoEspera(0);
         
@@ -109,17 +122,25 @@ public class Pizzeria implements PartePizzeria{
         this.listaEsperando.add(l);
     }
     
+    /**
+     * Verifica si hay clientes esperando.
+     * @return true, si los hay, false, si no los hay.
+     */
     public boolean thereAreClients(){
         return (!this.listaEsperando.isEmpty());
     }
     
    
-    
+    /**
+     * Le pide a los meseros que tomen ordenes.
+     * Las ordenes son agregadas a la cocina.
+     * @param tiempoActual El momento actual en el que tomamos las ordenes.
+     */
     public void tomarPedidos(int tiempoActual){
         for (Mesero m : listaMeseros){
             
           if (!m.isOcupado()){
-              
+   
           Iterator<Mesa>  iter = listaMesas.iterator();
           
           boolean flag = true; 
@@ -130,7 +151,8 @@ public class Pizzeria implements PartePizzeria{
             
             if (i.isOcupada() && !i.isAtendida()){
                 i.setAtendida(true);
-                m.tomarOrden(tiempoActual,i, cocinaPizzeria,menuComida,menuBebida);
+                m.tomarOrden(tiposClientes, tiempoActual,i, cocinaPizzeria,menuComida,menuBebida);
+                
                 flag = false;
             }
             
@@ -141,24 +163,34 @@ public class Pizzeria implements PartePizzeria{
         
     }
     
+    /**
+     * Le pide a los meseros que entreguen ordenes que ya estan preparados.
+     * @param tiempoActual El momento del tiempo en el que estamos haciendo la entrega.
+     */
     public void entregarPedidos(int tiempoActual){
         
         for (Mesero mesero : listaMeseros){
             
             if (!mesero.isOcupado()){
                 
-                if (cocinaPizzeria.getListaEntregas().size() > 0){
+                if (!cocinaPizzeria.getListaEntregas().isEmpty()){
                     
                     Orden ord = cocinaPizzeria.getFirstListaEntregas();
                     Mesa m = hallarMesa(ord);
                     cocinaPizzeria.removeFirstListaEntregas();
                     ord.setHoraEntrega(tiempoActual);
                     mesero.entregarOrden(ord, m);
+                    cajero.incrGanancias(ord.getPrecio());
                 }
             }
         }
     }
     
+    /**
+     * Dada una orden, busca la mesa a la que esta asociada.
+     * @param ord La orden a analizar.
+     * @return La mesa que pidio dicha orden.
+     */
     public Mesa hallarMesa(Orden ord){
         
         for (Mesa m : listaMesas){
@@ -169,39 +201,38 @@ public class Pizzeria implements PartePizzeria{
         return null;
     }
     
-    public CocineroJefe getCocineroLibre(){
-        
-        for (CocineroJefe cocinero : this.cocinaPizzeria.getCocinerosJ()){
-            if (!cocinero.isOcupado())
-                return cocinero;
-        }
-        
-        return null;
-    }
-    
+    /**
+     * Actualiza el estado de las mesas.
+     * Si aun no han terminado, les descuenta el tiempo de consumo.
+     * De otro modo, la vacia.
+     */
     public void updateMesas(){
         for (Mesa mesa : listaMesas){
             if (mesa.isOcupada() && mesa.getTiempoEspera() != 0){
             if (mesa.getTiempoConsumo() > 0)
                 mesa.setTiempoConsumo(mesa.getTiempoConsumo() - 1);
             else{
-                System.out.println("mesavacia");
                 vaciarMesa(mesa);}
             
             }
             
         }
     }
-    
+    /**
+     * Reestablece todos los meseros para que esten desocupados
+     */
     public void resetMeseros(){
         for (Mesero m : listaMeseros){
             m.setOcupado(false);
         }
     }
     
+    /**
+     * Se encarga de avisarle a la cocina que se debe cocinar.
+     */
     public void cocinar(){
-        this.cocinaPizzeria.hacerPreparaciones();
-        this.cocinaPizzeria.cocinarTurnoActual();
+        Pizzeria.cocinaPizzeria.hacerPreparaciones();
+        Pizzeria.cocinaPizzeria.cocinarTurnoActual();
     }
 
     public int getTotalDemora() {
@@ -219,7 +250,11 @@ public class Pizzeria implements PartePizzeria{
     public void setTotalMesas(int totalMesas) {
         this.totalMesas = totalMesas;
     }
-
+    
+    /**
+     * Metodo de la interfaz partePizzeria
+     * Muestra el estado actual
+     */
     @Override
     public void mostrarEstado() {
         int desocupadas = 0;
@@ -231,9 +266,20 @@ public class Pizzeria implements PartePizzeria{
         
         System.out.println("Actualmente hay " + desocupadas + " mesas desocupadas");
     }
-
+    
+    /**
+     * Metodo de la interfaz partePizzeria
+     * Muestra el estado final
+     */
     @Override
     public void mostrarTotales() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("Los tipos de clientes que asistieron fueron los siguientes: ");
+        for (String key : tiposClientes.keySet()){
+            int amt = tiposClientes.get(key);
+            System.out.println(key + ": " + amt);
+        }
+        System.out.println("La demora promedio para cada mesa fue de " + totalDemora/totalMesas + " minutos");
+        System.out.println("El gasto promedio de cada mesa fue de " + cajero.getTotalGanado()/totalMesas + " Euros");
     }
+    
 }

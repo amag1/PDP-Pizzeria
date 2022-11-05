@@ -6,24 +6,29 @@ package com.mycompany.pizzeria;
  */
 
 /**
- *
+ * Clase que simula una bebida a partir de su nombre
  * @author andres
  */
 public class Bebida {
     
     private String nombre;
-    private String ingredientes;
-    private int tiempoConsumo;
     private int precio;
 
+    /**
+     * Constructor para una bebida vacia
+     */
     public Bebida() {
+        String nombre = new String();
+        int precio = 0;
     }
     
-    
-    public Bebida(String nombre, int tiempoConsumo, int precio) {
+    /**
+     * Constructor para bebida a partir de sus atribu.os
+     * @param nombre El nombre de la bebida (String).
+     * @param precio El precio de la bebida (int).
+     */
+    public Bebida(String nombre, int precio) {
         this.nombre = nombre;
-        this.ingredientes = nombre;
-        this.tiempoConsumo = tiempoConsumo;
         this.precio = precio;
     }
 
@@ -33,22 +38,6 @@ public class Bebida {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getIngredientes() {
-        return ingredientes;
-    }
-
-    public void setIngredientes(String ingredientes) {
-        this.ingredientes = ingredientes;
-    }
-
-    public int getTiempoConsumo() {
-        return tiempoConsumo;
-    }
-
-    public void setTiempoConsumo(int tiempoConsumo) {
-        this.tiempoConsumo = tiempoConsumo;
     }
 
     public int getPrecio() {

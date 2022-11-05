@@ -25,7 +25,7 @@ public class CocineroJefe extends CocineroAyudante {
     public int cocinar(Orden ord){
         
         int tiempoRestante = ord.getTiempoPreparacion();
-        System.out.println("tiempo restante: " + tiempoRestante);
+
         if (tiempoRestante == 1){
             
             ord.setTiempoPreparacion(0);
