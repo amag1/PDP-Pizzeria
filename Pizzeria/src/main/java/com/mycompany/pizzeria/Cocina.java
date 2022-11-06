@@ -42,11 +42,6 @@ public class Cocina implements PartePizzeria{
         }
     }
 
-    public void setTotalesComidas(HashMap<String, Integer> totalesComidas) {
-        this.totalesComidas = totalesComidas;
-    }
-    
-
     public LinkedList<Orden> getListaEntregas() {
         return listaEntregas;
     }
@@ -76,10 +71,6 @@ public class Cocina implements PartePizzeria{
         return listaOrdenes.getFirst();
     }
 
-    public void setListaOrdenes(LinkedList<Orden> listaOrdenes) {
-        this.listaOrdenes = listaOrdenes;
-    }
-    
     /**
      * Elimina el primer elemento de la lista de ordenes.
      * @see removeFirstListaEntregas
@@ -102,6 +93,10 @@ public class Cocina implements PartePizzeria{
 
     public void setStock(HashMap<String, Integer> stock) {
         this.stock = stock;
+    }
+    
+    public void set0totalesComida(){
+        this.totalesComidas.clear();
     }
     
     /**

@@ -253,8 +253,8 @@ public class Simulacion {
         ingBurger.put("Lechuga",1);
         ingBurger.put("Huevo",1);
         HashMap<String,Integer> ingPasta = new HashMap<String,Integer>();
-        ingPasta.put("Huevo", 1);
-        ingPasta.put("Harina", 1);
+        ingPasta.put("Huevo", 2);
+        ingPasta.put("Harina", 2);
         
         menuComida.add(new Comida("Pizza",ingPizza,20,30,6));
         menuComida.add(new Comida("Hamburguesa",ingBurger,15,15,3));
