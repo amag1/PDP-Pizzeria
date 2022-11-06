@@ -9,6 +9,9 @@ package com.mycompany.clientes;
  * @author longh
  */
 public class Ninio extends Cliente {
+    /**
+     * Construye un ninio generico.
+     */
     public Ninio (){
         super();
         this.id = "Ninio";

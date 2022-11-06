@@ -9,6 +9,9 @@ package com.mycompany.clientes;
  * @author longh
  */
 public class Estudiante extends Cliente {
+    /**
+     * Construye un estudiante generico
+     */
     public Estudiante (){
         super();
         this.id = "Estudiante";

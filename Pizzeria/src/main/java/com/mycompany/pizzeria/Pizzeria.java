@@ -59,7 +59,6 @@ public class Pizzeria implements PartePizzeria{
     /**
      * Metodo para acomodar clientes adentro del local.
      * Escanea la lista de mesas y cuando halla una vacia, inserta a los primeros clientes de la cola alli.
-    
      */
     public void acomodarClientes(){
         
@@ -88,7 +87,7 @@ public class Pizzeria implements PartePizzeria{
     
     /**
      * Dada una mesa, la "reinicia" marcando que esta desocupada y eliminando los clientes
-     * @param m La mesa a desocupar
+     * @param m La mesa a desocupar.
      */
     public void vaciarMesa(Mesa m){
         
@@ -222,6 +221,7 @@ public class Pizzeria implements PartePizzeria{
     
     /**
      * Se encarga de avisarle a la cocina que se debe cocinar.
+     * Llama a los metodos de la cocina.
      */
     public void cocinar(){
         Pizzeria.cocinaPizzeria.hacerPreparaciones();
@@ -243,7 +243,10 @@ public class Pizzeria implements PartePizzeria{
     public void setTotalMesas(int totalMesas) {
         this.totalMesas = totalMesas;
     }
-    
+
+    public Cajero getCajero() {
+        return cajero;
+    }
     /**
      * Metodo de la interfaz partePizzeria
      * Muestra el estado actual
@@ -275,6 +278,7 @@ public class Pizzeria implements PartePizzeria{
         System.out.println("La demora promedio para cada mesa fue de " + totalDemora/totalMesas + " minutos");
         System.out.println("El gasto promedio de cada mesa fue de " + cajero.getTotalGanado()/totalMesas + " Euros");
         System.out.println("El gasto promedio de cada cliente fue de " + cajero.getTotalGanado()/listaMeseros.get(0).getTotalClientes() + " Euros") ;
+        System.out.println("El total ganado fue de " + cajero.getTotalGanado() + " Euros");
     }
     
 }

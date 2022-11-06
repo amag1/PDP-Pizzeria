@@ -21,6 +21,10 @@ public class Simulacion {
     private boolean findeSemana;
     private static Pizzeria laTana;
     
+    /**
+     * Metodo principal del programa.
+     * Presenta un menu al usuario donde puede elegir que desea simular.
+     */
     public static void main(String[] args) {
         
         Simulacion control = new Simulacion();
@@ -48,9 +52,9 @@ public class Simulacion {
         //Menu principal
         System.out.println("Bienvenido a la pizzeria \"La Tana\"");
         System.out.println("Seleccione la opcion que desea visualizar:");
-        System.out.println("1: Generar 30 movimientos aleatorios para un dia de semana");
-        System.out.println("2: Generar 30 movimientos aleatorios para un fin de semana");
-        System.out.println("3: Generar 30 movimientos un dia de semana, 50 un fin de semana e imprimir la comparacion");
+        System.out.println("1: Generar 30 movimientos de clientes aleatorios para un dia de semana");
+        System.out.println("2: Generar 30 movimientos de clientes aleatorios para un fin de semana");
+        System.out.println("3: Generar 30 movimientos de clientes un dia de semana, 50 un fin de semana e imprimir la comparacion");
         
         System.out.print("A continuacion, seleccione la opcion deseada: ");
         
@@ -78,12 +82,16 @@ public class Simulacion {
             case 1:
                 control.setFindeSemana(false);
                 control.runPizzeria(cocina, 30);
+                control.showTotal(cocina);
                 break;
             //opcion2
             case 2:
                 control.setFindeSemana(true);
                 control.runPizzeria(cocina, 30);
+                control.showTotal(cocina);
                 break;
+            case 3:
+                
                 
         }
 
@@ -258,10 +266,6 @@ public class Simulacion {
         return menuBebida;
     }
     
-    /**
-     * Establece el boolean fin de semana en verdadero o falso
-     * @param findeSemana El valor que le asignamos a finDeSemana
-     */
     public void setFindeSemana(boolean findeSemana) {
         this.findeSemana = findeSemana;
     }
@@ -288,7 +292,7 @@ public class Simulacion {
      * @param maxMov La cantidad de movimientos que se desea simular.
      */
     
-    public void runPizzeria(Cocina cocina, int maxMov){
+    public int[] runPizzeria(Cocina cocina, int maxMov){
         int i = 0;
         int cantMov = 0;
         int nextGroupTimeStamp = 0;
@@ -326,10 +330,10 @@ public class Simulacion {
                 flag = false;
             }
             i++;
+        }
         
-    }
-        this.showTotal(cocina);
-        
+       return new int[] {this.laTana.getTotalDemora(),this.laTana.getTotalMesas(),this.laTana.getCajero().getTotalGanado()};
 }
 }
+
     

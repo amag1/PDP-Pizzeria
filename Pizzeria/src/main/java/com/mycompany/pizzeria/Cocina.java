@@ -91,7 +91,7 @@ public class Cocina implements PartePizzeria{
     
     /**
      * Elimina el primer elemento de la lista de ordenes.
-     * @see getFirstListaOrdenes()
+     * @see removeFirstListaEntregas
      */
     public void removeFirstListaOrdenes(){
         this.listaOrdenes.removeFirst();
@@ -134,6 +134,10 @@ public class Cocina implements PartePizzeria{
         }
     }
     
+    /**
+     * Aniade una orden al final de la lista de entregas.
+     * @param ord La orden a agregar.
+     */
     public void addLastListaEntregas(Orden ord){
         listaEntregas.add(ord);
     }
@@ -142,6 +146,10 @@ public class Cocina implements PartePizzeria{
         return this.listaEntregas.getFirst();
     }
     
+    /**
+     * Elimina la primer orden de la lista de entregas
+     * Debemos verificar que no este vacia
+     */
     public void removeFirstListaEntregas(){
         this.listaEntregas.remove(0);
     }

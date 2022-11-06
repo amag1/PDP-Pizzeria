@@ -5,7 +5,8 @@
 package com.mycompany.pizzeria;
 
 /**
- *
+ * Clase abstracta para simular empleados
+ * Cada tipo de empleado deberia ordenar de ella
  * @author andres
  */
 abstract class Empleado {

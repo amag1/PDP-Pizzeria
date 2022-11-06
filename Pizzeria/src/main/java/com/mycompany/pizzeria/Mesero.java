@@ -97,8 +97,11 @@ public class Mesero extends Empleado {
     }
     
     /**
-     * see @getComidaGivenString.
-    */
+     * Se encarga de buscar una bebida en el menu dado su nombre.
+     * @param nombre El nombre de la bebida (String).
+     * @param listaBebidas El menu de bebidas (List<Bebida>).
+     * @return La bebida a la que hace referencia el nombre, o una gaseosa si no lo hallamos.
+     */
     public Bebida getBebidaGivenString(String nombre, List<Bebida> listaBebidas){
         for (Bebida b : listaBebidas){
             if (b.getNombre().compareTo(nombre) == 0)

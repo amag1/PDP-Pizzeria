@@ -9,6 +9,10 @@ package com.mycompany.clientes;
  * @author longh
  */
 public class Adulto extends Cliente {
+    /**
+     * Constructor para crear un nuevo adulto.
+     * @param type El identificador de dicho adulto.
+     */
     public Adulto (String type){
         super();
         this.id = type;
