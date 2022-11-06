@@ -91,8 +91,16 @@ public class Simulacion {
                 control.showTotal(cocina);
                 break;
             case 3:
+                control.setFindeSemana(false);
+                control.runPizzeria(cocina, 30);
+                control.showTotal(cocina);
                 
+                control.reset();
                 
+                control.setFindeSemana(true);
+                control.runPizzeria(cocina, 50);
+                control.showTotal(cocina);
+                break;
         }
 
     }
@@ -332,7 +340,10 @@ public class Simulacion {
         }
         
        return new int[] {this.laTana.getTotalDemora(),this.laTana.getTotalMesas(),this.laTana.getCajero().getTotalGanado()};
-}
+    }
+    public void reset(){
+        this.laTana.reset();
+    }
 }
 
     

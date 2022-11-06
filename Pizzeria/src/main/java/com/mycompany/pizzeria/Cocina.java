@@ -45,33 +45,19 @@ public class Cocina implements PartePizzeria{
     public LinkedList<Orden> getListaEntregas() {
         return listaEntregas;
     }
-
-    public void setListaEntregas(LinkedList<Orden> listaEntregas) {
-        this.listaEntregas = listaEntregas;
-    }
-
+    
     public ArrayList<CocineroAyudante> getCocinerosA() {
         return cocinerosA;
-    }
-
-    public void setCocinerosA(ArrayList<CocineroAyudante> CocinerosA) {
-        this.cocinerosA = CocinerosA;
     }
 
     public ArrayList<CocineroJefe> getCocinerosJ() {
         return cocinerosJ;
     }
-
-    public void setCocinerosJ(ArrayList<CocineroJefe> CocinerosJ) {
-        this.cocinerosJ = CocinerosJ;
-    }
-    
     
     public int getTotalPreparadas() {
         return totalPreparadas;
     }
 
-    
 
     public LinkedList<Orden> getListaOrdenes() {
         return listaOrdenes;

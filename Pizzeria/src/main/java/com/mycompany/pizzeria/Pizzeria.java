@@ -247,6 +247,27 @@ public class Pizzeria implements PartePizzeria{
     public Cajero getCajero() {
         return cajero;
     }
+    
+    public void reset(){
+        this.cocinaPizzeria.setStock(null);
+        HashMap<String, Integer> ingredientes = new HashMap<String,Integer>();
+        ingredientes.put("Prepizza",400);
+        ingredientes.put("Cebolla",400);
+        ingredientes.put("Queso",400);
+        ingredientes.put("Pan",400);
+        ingredientes.put("Carne molida",400);
+        ingredientes.put("Condimentos",400);
+        ingredientes.put("Tomate",400);
+        ingredientes.put("Lechuga",400);
+        ingredientes.put("Huevo",400);
+        ingredientes.put("Gaseosa", 400);
+        ingredientes.put("Cerveza", 400);
+        ingredientes.put("Harina", 400);
+        this.cocinaPizzeria.setStock(ingredientes);
+        this.cajero.resetGanancias();
+
+    }
+    
     /**
      * Metodo de la interfaz partePizzeria
      * Muestra el estado actual
