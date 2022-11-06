@@ -219,6 +219,7 @@ public class Pizzeria implements PartePizzeria{
         }
     }
     
+    
     /**
      * Se encarga de avisarle a la cocina que se debe cocinar.
      * Llama a los metodos de la cocina.
@@ -260,6 +261,8 @@ public class Pizzeria implements PartePizzeria{
         this.cocinaPizzeria.setStock(ingredientes);
         this.cocinaPizzeria.set0totalesComida();
         this.cajero.resetGanancias();
+        this.totalDemora = 0;
+        this.totalMesas = 0;
 
     }
     
