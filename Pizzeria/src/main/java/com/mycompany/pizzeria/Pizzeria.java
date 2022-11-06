@@ -250,7 +250,11 @@ public class Pizzeria implements PartePizzeria{
     
     public void reset(){
         this.cocinaPizzeria.setStock(null);
+        this.cocinaPizzeria.setTotalesComidas(new HashMap<String,Integer>());
         HashMap<String, Integer> ingredientes = new HashMap<String,Integer>();
+        this.tiposClientes = new HashMap<String,Integer>();
+        this.totalMesas = 0;
+        this.totalDemora = 0;
         ingredientes.put("Prepizza",400);
         ingredientes.put("Cebolla",400);
         ingredientes.put("Queso",400);

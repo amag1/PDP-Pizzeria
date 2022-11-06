@@ -42,6 +42,11 @@ public class Cocina implements PartePizzeria{
         }
     }
 
+    public void setTotalesComidas(HashMap<String, Integer> totalesComidas) {
+        this.totalesComidas = totalesComidas;
+    }
+    
+
     public LinkedList<Orden> getListaEntregas() {
         return listaEntregas;
     }
