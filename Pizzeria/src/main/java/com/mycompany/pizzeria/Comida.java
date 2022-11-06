@@ -46,26 +46,6 @@ public class Comida {
         this.precio = precio;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setIngredientes(HashMap<String,Integer> ingredientes) {
-        this.ingredientes = ingredientes;
-    }
-
-    public void setTiempoPreparacion(int tiempoPreparacion) {
-        this.tiempoPreparacion = tiempoPreparacion;
-    }
-
-    public void setTiempoConsumo(int tiempoConsumo) {
-        this.tiempoConsumo = tiempoConsumo;
-    }
-
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
     public String getNombre() {
         return nombre;
     }

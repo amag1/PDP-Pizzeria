@@ -232,16 +232,8 @@ public class Pizzeria implements PartePizzeria{
         return totalDemora;
     }
 
-    public void setTotalDemora(int totalDemora) {
-        this.totalDemora = totalDemora;
-    }
-
     public int getTotalMesas() {
         return totalMesas;
-    }
-
-    public void setTotalMesas(int totalMesas) {
-        this.totalMesas = totalMesas;
     }
 
     public Cajero getCajero() {
@@ -250,11 +242,7 @@ public class Pizzeria implements PartePizzeria{
     
     public void reset(){
         this.cocinaPizzeria.setStock(null);
-        this.cocinaPizzeria.setTotalesComidas(new HashMap<String,Integer>());
         HashMap<String, Integer> ingredientes = new HashMap<String,Integer>();
-        this.tiposClientes = new HashMap<String,Integer>();
-        this.totalMesas = 0;
-        this.totalDemora = 0;
         ingredientes.put("Prepizza",400);
         ingredientes.put("Cebolla",400);
         ingredientes.put("Queso",400);
@@ -265,9 +253,12 @@ public class Pizzeria implements PartePizzeria{
         ingredientes.put("Lechuga",400);
         ingredientes.put("Huevo",400);
         ingredientes.put("Gaseosa", 400);
-        ingredientes.put("Cerveza", 400);
         ingredientes.put("Harina", 400);
+        ingredientes.put("Cerveza", 400);
+        
+        this.tiposClientes.clear();
         this.cocinaPizzeria.setStock(ingredientes);
+        this.cocinaPizzeria.set0totalesComida();
         this.cajero.resetGanancias();
 
     }
