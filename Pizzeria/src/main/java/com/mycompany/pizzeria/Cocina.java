@@ -205,14 +205,15 @@ public class Cocina implements PartePizzeria{
      * @param ord La orden que se desea analizar.
      */
     public void actualizarInventario(Orden ord){
-        
         for (Comida c : ord.getListaComidas()){
+            if (!c.getNombre().equals("Nada")){
             for (HashMap.Entry<String,Integer> entry : c.getIngredientes().entrySet()){
                 String ingrediente = entry.getKey();
                 int cantidad = entry.getValue();
                 
                 stock.put(ingrediente, stock.get(ingrediente) - cantidad);
             }
+        }
         }
         
         for (Bebida b : ord.getListaBebidas()){

@@ -26,8 +26,10 @@ public class CocineroAyudante extends Empleado {
      * @return El tiempo que le tomo al cocinero prepararla.
      */
     public void hacerPreparacion(Orden ord){
+        if (ord.getTiempoPreparacion() > 10){
         ord.setTiempoPreparacion(ord.getTiempoPreparacion()/2);
         ord.setPreparada(true);
+        }
         
         
     }

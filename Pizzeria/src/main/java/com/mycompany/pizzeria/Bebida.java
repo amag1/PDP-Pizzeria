@@ -18,7 +18,7 @@ public class Bebida {
      * Constructor para una bebida vacia
      */
     public Bebida() {
-        String nombre = "Gaseosa";
+        String nombre = "SinStock";
         int precio = 0;
     }
     
