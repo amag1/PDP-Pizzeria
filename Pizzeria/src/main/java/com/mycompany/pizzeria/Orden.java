@@ -38,10 +38,6 @@ public class Orden {
         return numMesa;
     }
 
-    public void setNumMesa(int numMesa) {
-        this.numMesa = numMesa;
-    }
-
     public boolean isPreparada() {
         return preparada;
     }
@@ -65,10 +61,6 @@ public class Orden {
         return listaComidas;
     }
 
-    public void setListaComidas(LinkedList<Comida> listaComidas) {
-        this.listaComidas = listaComidas;
-    }
-    
     /**
      * Aniade un elemento a la lista de comidas.
      * Formato FIFO
@@ -80,10 +72,6 @@ public class Orden {
     
     public List<Bebida> getListaBebidas() {
         return listaBebidas;
-    }
-
-    public void setListaBebidas(LinkedList<Bebida> listaBebidas) {
-        this.listaBebidas = listaBebidas;
     }
     
     /**
