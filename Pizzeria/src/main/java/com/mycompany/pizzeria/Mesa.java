@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import com.mycompany.clientes.Cliente;
 
 /**
- * Clase que contiene la represnetacion de una mesa.
- * Constantes para su numero y capacidad.
- * Atributos de instancia para su status y los clientes que contiene.
+ * Clase que contiene la representacion de una mesa.
+ * Contiene sus caracteristicas (capacidad e id)
+ * tambien los estados pertinentes al sistema(ocupada,atendida,entregada)
+ * y por ultimo los tiempos de espera y consumo necesarios para el reporte final
  * Implementa la interfaz Comparable para poder ordenar una lista de Mesas.
  * @author andres
  */

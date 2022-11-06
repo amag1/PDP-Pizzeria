@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * Clase que representa la cocina de la pizzeria.
- * Contiene colas FIFO para ordenes comlpetas y sin completar.
+ * Contiene colas FIFO para ordenes completas y sin completar.
  * El stock de ingredientes se representa como un hashmap.
  * @author andres
  */
@@ -45,33 +45,19 @@ public class Cocina implements PartePizzeria{
     public LinkedList<Orden> getListaEntregas() {
         return listaEntregas;
     }
-
-    public void setListaEntregas(LinkedList<Orden> listaEntregas) {
-        this.listaEntregas = listaEntregas;
-    }
-
+    
     public ArrayList<CocineroAyudante> getCocinerosA() {
         return cocinerosA;
-    }
-
-    public void setCocinerosA(ArrayList<CocineroAyudante> CocinerosA) {
-        this.cocinerosA = CocinerosA;
     }
 
     public ArrayList<CocineroJefe> getCocinerosJ() {
         return cocinerosJ;
     }
-
-    public void setCocinerosJ(ArrayList<CocineroJefe> CocinerosJ) {
-        this.cocinerosJ = CocinerosJ;
-    }
-    
     
     public int getTotalPreparadas() {
         return totalPreparadas;
     }
 
-    
 
     public LinkedList<Orden> getListaOrdenes() {
         return listaOrdenes;
@@ -83,10 +69,6 @@ public class Cocina implements PartePizzeria{
      */
     public Orden getFirstListaOrdenes(){
         return listaOrdenes.getFirst();
-    }
-
-    public void setListaOrdenes(LinkedList<Orden> listaOrdenes) {
-        this.listaOrdenes = listaOrdenes;
     }
     
     /**
@@ -109,10 +91,6 @@ public class Cocina implements PartePizzeria{
         return stock;
     }
 
-    public void setStock(HashMap<String, Integer> stock) {
-        this.stock = stock;
-    }
-    
     /**
      * Le pide a cada cocinero ayudante que haga preparaciones
      */
@@ -205,15 +183,14 @@ public class Cocina implements PartePizzeria{
      * @param ord La orden que se desea analizar.
      */
     public void actualizarInventario(Orden ord){
+        
         for (Comida c : ord.getListaComidas()){
-            if (!c.getNombre().equals("Nada")){
             for (HashMap.Entry<String,Integer> entry : c.getIngredientes().entrySet()){
                 String ingrediente = entry.getKey();
                 int cantidad = entry.getValue();
                 
                 stock.put(ingrediente, stock.get(ingrediente) - cantidad);
             }
-        }
         }
         
         for (Bebida b : ord.getListaBebidas()){

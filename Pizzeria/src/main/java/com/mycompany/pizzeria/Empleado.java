@@ -23,19 +23,11 @@ abstract class Empleado {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public boolean isOcupado() {
         return ocupado;
     }
 
     public void setOcupado(boolean ocupado) {
         this.ocupado = ocupado;
-    }
-    
-    
-    
-    
+    }    
 }

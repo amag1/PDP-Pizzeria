@@ -27,23 +27,5 @@ public class Cajero extends Empleado {
      */
     public void incrGanancias(int amt){
         totalGanado += amt;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public boolean isOcupado() {
-        return ocupado;
-    }
-
-    public void setOcupado(boolean ocupado) {
-        this.ocupado = ocupado;
-    }
-    
-    
+    }  
 }

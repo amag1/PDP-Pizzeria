@@ -8,7 +8,7 @@ import com.mycompany.clientes.Cliente;
 import java.util.HashMap;
 
 /**
- * Clase muy general que representa a la pizzeria.
+ * Clase que representa a la pizzeria.
  * La pizzeria esta formada por listas de Mesas, Clientes, y Empleados.
  * Tambien posee el menu y diversos atributos para guardar el estado actual
  * @author andres
@@ -123,7 +123,7 @@ public class Pizzeria implements PartePizzeria{
     /**
      * Le pide a los meseros que tomen ordenes.
      * Las ordenes son agregadas a la cocina.
-     * @param tiempoActual El momento actual en el que tomamos las ordenes.
+     * @param tiempoActual El momento en el que tomamos las ordenes.
      */
     public void tomarPedidos(int tiempoActual){
         for (Mesero m : listaMeseros){

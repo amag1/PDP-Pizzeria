@@ -13,10 +13,10 @@ public class Adulto extends Cliente {
      * Constructor para crear un nuevo adulto.
      * @param type El identificador de dicho adulto.
      */
-    public Adulto (String type){
+    public Adulto (String type, String favF,String favD){
         super();
         this.id = type;
-        this.comidaFavorita = "Hamburguesa";
-        this.bebidaFavorita = "Cerveza";
+        this.comidaFavorita = favF;
+        this.bebidaFavorita = favD;
     }
 }

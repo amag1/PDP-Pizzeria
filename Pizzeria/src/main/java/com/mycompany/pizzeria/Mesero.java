@@ -37,12 +37,6 @@ public class Mesero extends Empleado {
         return totalClientes;
     }
 
-
-    public void setTotalClientes(int totalClientes) {
-        this.totalClientes = totalClientes;
-    }
-    
-    
     /**
      * Dada una comida, verifica si hay stock para prepararla.
      * @param c La comida a verificar.
@@ -68,7 +62,7 @@ public class Mesero extends Empleado {
      * @return Un booleano que nos dice si hay (true) o no (false) stock suficiente.
      */
     public boolean verificarInventarioBebida(Bebida b, Cocina cocinaPizzeria){
-        return (cocinaPizzeria.getStock().get(b.getNombre()) > 1);
+        return (cocinaPizzeria.getStock().get(b.getNombre()) > 0);
     }
     
     /**
@@ -83,8 +77,15 @@ public class Mesero extends Empleado {
             if (c.getNombre().compareTo(nombre) == 0)
                 return c;
         }
-
-        return new Comida();
+        
+        HashMap<String,Integer> ingPizza = new HashMap<String,Integer>();
+        ingPizza.put("Prepizza",1);
+        ingPizza.put("Cebolla",1);
+        ingPizza.put("Queso",1);
+        ingPizza.put("Condimentos",1);
+        ingPizza.put("Tomate",1);
+        ingPizza.put("Huevo",1);
+        return new Comida("Pizza",ingPizza,20,30,5);
 
         
     }
@@ -100,7 +101,7 @@ public class Mesero extends Empleado {
             if (b.getNombre().compareTo(nombre) == 0)
                 return b;
         }
-        return new Bebida();
+        return new Bebida("Gaseosa",1);
     }
     
     /**
@@ -151,6 +152,7 @@ public class Mesero extends Empleado {
             }
             
             ord.addToListaBebidas(bebidaPedido);
+            cocina.actualizarInventario(ord);
             //se actualiza el precio total de la orden
             ord.setPrecio(ord.getPrecio() + comidaPedido.getPrecio() + bebidaPedido.getPrecio());
             
@@ -159,8 +161,7 @@ public class Mesero extends Empleado {
             ord.setTiempoConsumo(Integer.max(ord.getTiempoConsumo(), tiempoFinal));
             ord.setTiempoPreparacion(ord.getTiempoPreparacion() + comidaPedido.getTiempoPreparacion());
         }
-        //finalmente se actualiza el inventario y se pone la orden al final de la cola en la cocina
-        cocina.actualizarInventario(ord);
+        //finalmente se pone la orden al final de la cola en la cocina
         cocina.addLastListaOrdenes(ord);
     }
     

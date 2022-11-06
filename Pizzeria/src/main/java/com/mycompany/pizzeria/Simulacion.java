@@ -4,8 +4,6 @@ import com.mycompany.clientes.Cliente;
 import com.mycompany.clientes.Ninio;
 import com.mycompany.clientes.Adulto;
 import com.mycompany.clientes.Estudiante;
-import com.mycompany.clientes.Trabajador;
-import com.mycompany.clientes.Turista;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +12,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Clase principal: contiene al metodo main. Desde aqui debe inicializarse la simulacion
- * @author andres
+ * Clase principal: contiene al metodo main. 
+ * Inicializa la simulacion y contiene el bucle principal del programa
  */
 public class Simulacion {
     private boolean findeSemana;
@@ -28,8 +26,7 @@ public class Simulacion {
     public static void main(String[] args) {
         
         Simulacion control = new Simulacion();
-        Random r = new Random();
-        
+
         //Inicializa las partes de una pizzeria random
         //Podria mejorarse para que el usuario elija la forma
         LinkedList<Mesa> listaMesas = control.innitMesas();       
@@ -39,13 +36,10 @@ public class Simulacion {
         ArrayList<Comida> menuComida = control.innitMenuComida();
         ArrayList<Bebida> menuBebida = control.innitMenuBebida();
         
-        Cocina cocina = new Cocina(ingredientes,listaCocineros);
-        
+        Cocina cocina = new Cocina(ingredientes,listaCocineros);    
         
         //Se crea una pizzeria estandar
         control.laTana = new Pizzeria(new Cajero("Marco"),listaMesas,listaMeseros,listaCocineros,menuComida,menuBebida,cocina);
-        
-        
 
         Scanner scan = new Scanner(System.in);
         
@@ -90,7 +84,19 @@ public class Simulacion {
                 control.runPizzeria(cocina, 30);
                 control.showTotal(cocina);
                 break;
+            //opcion3
             case 3:
+                Simulacion other = new Simulacion();
+                other.laTana=new Pizzeria(new Cajero("Marco"),listaMesas,listaMeseros,listaCocineros,menuComida,menuBebida,cocina);
+                
+                control.setFindeSemana(false);
+                control.runPizzeria(cocina, 30);
+                other.setFindeSemana(true);
+                other.runPizzeria(cocina, 50);
+                
+                control.showTotal(cocina);
+                other.showTotal(cocina);
+                break;
                 
                 
         }
@@ -114,11 +120,11 @@ public class Simulacion {
                         
                         grupo.add(new Ninio());
                     for (int i=0;i<=r.nextInt(2);i++)
-                        grupo.add(new Adulto("Padre"));
+                        grupo.add(new Adulto("Padre","Hamburguesa","Cerveza"));
                     break;
                 case 2:
                     for (int i=0;i<=r.nextInt(3);i++)
-                        grupo.add(new Adulto("Adulto"));
+                        grupo.add(new Adulto("Adulto","Pasta","Cerveza"));
                     break;
                 case 3:
                     for (int i=0;i<=r.nextInt(4);i++)
@@ -126,7 +132,7 @@ public class Simulacion {
                     break;
                 default:
                     for (int i=0;i<=r.nextInt(4);i++)
-                        grupo.add(new Turista());
+                        grupo.add(new Adulto("Turista","Pizza","Cerveza"));
                     break;
             }
         }
@@ -136,15 +142,15 @@ public class Simulacion {
                     for (int i=0;i<=r.nextInt(1);i++)
                         grupo.add(new Ninio());
                     for (int i=0;i<=r.nextInt(1);i++)
-                        grupo.add(new Adulto("Padre"));
+                        grupo.add(new Adulto("Padre","Hamburguesa","Cerveza"));
                     break;
                 case 2:
                     for (int i=0;i<=r.nextInt(4);i++)
-                        grupo.add(new Adulto("Adulto"));
+                        grupo.add(new Adulto("Adulto","Pasta","Cerveza"));
                     break;
                 case 3:
                     for (int i=0;i<=r.nextInt(4);i++)
-                        grupo.add(new Adulto("Adulto"));
+                        grupo.add(new Adulto("Adulto","Pizza","Cerveza"));
                     break;
                 case 4:
                     for (int i=0;i<=r.nextInt(4);i++)
@@ -156,7 +162,7 @@ public class Simulacion {
                     break;
                 default:
                     for (int i=0;i<=r.nextInt(3);i++)
-                        grupo.add(new Trabajador());
+                        grupo.add(new Adulto("Trabajador","Pasta","Gaseosa"));
                     break;
             }
         return grupo;
@@ -245,7 +251,7 @@ public class Simulacion {
         ingBurger.put("Lechuga",1);
         ingBurger.put("Huevo",1);
         HashMap<String,Integer> ingPasta = new HashMap<String,Integer>();
-        ingPasta.put("Huevo", 1);
+        ingPasta.put("Huevo", 2);
         ingPasta.put("Harina", 1);
         
         menuComida.add(new Comida("Pizza",ingPizza,20,30,6));

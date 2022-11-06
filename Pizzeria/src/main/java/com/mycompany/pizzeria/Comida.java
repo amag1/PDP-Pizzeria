@@ -1,9 +1,6 @@
 package com.mycompany.pizzeria;
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
-
 
 /**
  * Clase que simula una comida a traves de su nombre, ingredientes y precio.
@@ -18,15 +15,11 @@ public class Comida {
     private int tiempoConsumo;
     private int precio;
     
-    /**
-     * Constructor vacio para comida.
-     * Genera una comida con los atributos vacios.
-     */
     public Comida() {
-        nombre = "SinStock";
+        nombre = "Pizza";
         ingredientes = new HashMap<String,Integer>();
         tiempoConsumo = 1;
-        tiempoPreparacion = 1;
+        tiempoPreparacion = 0;
         precio = 0;
     }
 
@@ -43,26 +36,6 @@ public class Comida {
         this.ingredientes = ingredientes;
         this.tiempoPreparacion = tiempoPreparacion;
         this.tiempoConsumo = tiempoConsumo;
-        this.precio = precio;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setIngredientes(HashMap<String,Integer> ingredientes) {
-        this.ingredientes = ingredientes;
-    }
-
-    public void setTiempoPreparacion(int tiempoPreparacion) {
-        this.tiempoPreparacion = tiempoPreparacion;
-    }
-
-    public void setTiempoConsumo(int tiempoConsumo) {
-        this.tiempoConsumo = tiempoConsumo;
-    }
-
-    public void setPrecio(int precio) {
         this.precio = precio;
     }
 

@@ -3,7 +3,7 @@ package com.mycompany.pizzeria;
 /**
  * Clase que representa a un cocinero Ayudante.
  * Hereda las caracteristicas de un empleado.
- * Se encarga de hacer preparaciones
+ * Se encarga de hacer preparaciones, no puede terminar comidas
  * @author andres
  */
 public class CocineroAyudante extends Empleado {
@@ -26,10 +26,8 @@ public class CocineroAyudante extends Empleado {
      * @return El tiempo que le tomo al cocinero prepararla.
      */
     public void hacerPreparacion(Orden ord){
-        if (ord.getTiempoPreparacion() > 10){
         ord.setTiempoPreparacion(ord.getTiempoPreparacion()/2);
         ord.setPreparada(true);
-        }
         
         
     }
