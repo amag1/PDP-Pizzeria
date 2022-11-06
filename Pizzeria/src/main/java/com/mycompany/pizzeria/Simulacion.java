@@ -181,19 +181,18 @@ public class Simulacion {
      */
     public HashMap<String, Integer> innitIngredientes(){
         HashMap<String, Integer> ingredientes = new HashMap<String,Integer>();
-        ingredientes.put("Prepizza",200);
-        ingredientes.put("Cebolla",200);
-        ingredientes.put("Queso",200);
+        ingredientes.put("Prepizza",400);
+        ingredientes.put("Cebolla",400);
+        ingredientes.put("Queso",400);
         ingredientes.put("Pan",400);
-        ingredientes.put("Carne molida",200);
-        ingredientes.put("Condimentos",200);
-        ingredientes.put("Tomate",200);
-        ingredientes.put("Lechuga",200);
-        ingredientes.put("Huevo",200);
-        ingredientes.put("Gaseosa", 200);
-        ingredientes.put("Cerveza", 200);
-        ingredientes.put("Huevos", 200);
-        ingredientes.put("Harina", 200);
+        ingredientes.put("Carne molida",400);
+        ingredientes.put("Condimentos",400);
+        ingredientes.put("Tomate",400);
+        ingredientes.put("Lechuga",400);
+        ingredientes.put("Huevo",400);
+        ingredientes.put("Gaseosa", 400);
+        ingredientes.put("Cerveza", 400);
+        ingredientes.put("Harina", 400);
         return ingredientes;
     }
     
@@ -246,7 +245,7 @@ public class Simulacion {
         ingBurger.put("Lechuga",1);
         ingBurger.put("Huevo",1);
         HashMap<String,Integer> ingPasta = new HashMap<String,Integer>();
-        ingPasta.put("Huevos", 1);
+        ingPasta.put("Huevo", 1);
         ingPasta.put("Harina", 1);
         
         menuComida.add(new Comida("Pizza",ingPizza,20,30,6));
